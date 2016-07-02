@@ -1,0 +1,26 @@
+header {
+  display: flex;
+  align-items: baseline;
+  padding: 15px 0;
+}
+
+header ul,
+header h1 {
+  margin: 0;
+  padding: 0;
+}
+
+header nav {
+  flex-grow: 1;
+}
+
+header ul {
+  display: flex;
+  justify-content: space-around;
+}
+
+header li {
+  padding: 0 5px;
+  list-style-type: none;
+}
+
