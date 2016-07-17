@@ -1,0 +1,73 @@
+@import '../../node_modules/normalize.css/normalize.css';
+@import '../../node_modules/basscss/css/basscss.css';
+@import 'fonts';
+@import 'header';
+
+* {
+ box-sizing: border-box;   
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  border-bottom: 2px solid rgb(174, 202, 211);
+}
+
+body {
+  padding-top: 70px;
+  background: rgb(243, 243, 243);
+}
+
+main {
+  padding: 5px;
+}
+
+main section {
+  display: flex;
+  margin: -1em 0 0 -1em;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  margin-top: 5px;
+}
+
+figure {
+  padding: 1em 0 0 1em;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+figure:after {
+  position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+  right: 0;
+  opacity: 0;
+  padding: 10px;
+  width: calc(100% - 1em);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  content: attr(alt);
+  transition: all ease-out 0.1s;
+}
+
+figure:hover:after {
+  opacity: 1;
+}
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+
+

@@ -1,7 +1,18 @@
 header {
+  background: white;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.05);
+}
+
+header .container {
   display: flex;
   align-items: baseline;
-  padding: 15px 0;
+  padding: 8px 5px;
 }
 
 header ul,
@@ -12,6 +23,10 @@ header h1 {
 
 header nav {
   flex-grow: 1;
+}
+
+header h1 {
+  font-size: 1.3rem;
 }
 
 header ul {
