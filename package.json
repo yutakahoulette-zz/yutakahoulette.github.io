@@ -9,7 +9,7 @@
   },
   "scripts": {
     "serve": "budo scripts/index.js --live --css build/index.css -- -t [ babelify --presets es2015 ]",
-    "build": "browserify scripts/index.js -o build/bundle.js -t [babelify --presets es2015] | uglify > build/bundle.js"
+    "build": "browersify scripts/index.js -o build/bundle.js -t [babelify --presets es2015]"
   },
   "author": "Yutaka Houlette",
   "license": "MIT",
@@ -31,7 +31,6 @@
     "normalize.css": "4.2.0",
     "postcss-import": "8.1.2",
     "precss": "1.4.0",
-    "uglify": "0.1.5",
     "watchify": "3.7.0"
   }
 }

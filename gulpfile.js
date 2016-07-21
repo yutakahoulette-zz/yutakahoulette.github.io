@@ -13,7 +13,7 @@ gulp.task('css', function () {
   , autoprefixer({browsers: ['last 1 version']})
   , cssnano()
   ]
-  return gulp.src('assets/styles/index.css')
+  return gulp.src('styles/index.css')
     .pipe(sourcemaps.init())
     .pipe(postcss(processors))
     .pipe(sourcemaps.write('.'))
@@ -27,6 +27,6 @@ function showError(err) {
 }
 
 gulp.task('watch', function() {
-  gulp.watch('assets/styles/index.css', ['css'])
+  gulp.watch('styles/index.css', ['css'])
 })
 
