@@ -8,8 +8,8 @@
     "url": "git+https://github.com/yutakahoulette/portfolio.git"
   },
   "scripts": {
-    "serve": "budo scripts/index.js --live --css build/index.css -- -t [ babelify --presets es2015 ]",
-    "build": "browersify scripts/index.js -o build/bundle.js -t [babelify --presets es2015]"
+    "watch": "watchify scripts/index.js -o dist/bundle.js -t [babelify --presets es2015]",
+    "start": "open dist/index.html && npm run watch"
   },
   "author": "Yutaka Houlette",
   "license": "MIT",

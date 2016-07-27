@@ -18,7 +18,7 @@ gulp.task('css', function () {
     .pipe(postcss(processors))
     .pipe(sourcemaps.write('.'))
     .on('error', showError)
-    .pipe(gulp.dest('build/'))
+    .pipe(gulp.dest('dist/'))
 })
 
 function showError(err) {
