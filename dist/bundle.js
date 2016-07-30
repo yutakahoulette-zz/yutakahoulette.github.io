@@ -10231,33 +10231,59 @@ _flyd2.default.mergeAll = require('flyd/module/mergeall');
 _flyd2.default.filter = require('flyd/module/filter');
 
 var vnode = void 0;
-var data = {};
+var data = { modalData: {} };
 
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
 
 var view = function view(data) {
-  return (0, _h2.default)('div.container', [header(), main(data)]);
+  var content = [header(), main()];
+  content = data.modalData.src ? _ramda2.default.concat(content, imageModal(data.modalData)) : content;
+  return (0, _h2.default)('div.container', content);
 };
 
-var main = function main(data) {
-  return (0, _h2.default)('main', [(0, _h2.default)('section.flex.flex-wrap.content-end', korematsu(data))]);
+var main = function main(_) {
+  return (0, _h2.default)('main.pr1', [(0, _h2.default)('section.flex.flex-wrap.content-end', korematsu())]);
 };
 
-var korematsu = function korematsu(data) {
+var korematsu = function korematsu(_) {
   return _ramda2.default.map(function (x) {
-    return imageBox('korematsu', 'jpg', x, true, 'col-6');
+    return imageBox('korematsu', x, true, 'col-6');
   }, _images2.default.korematsu);
 };
 
-var imageBox = function imageBox(directory, fileType, imageObj, expand, className) {
-  return (0, _h2.default)('figure', { props: { className: className } }, [(0, _h2.default)('img', { props: {
-      src: 'images/' + directory + '/' + imageObj.fileName + '.' + fileType,
+var imageBox = function imageBox(directory, imageObj, expand, className) {
+  return (0, _h2.default)('div.pb1.pl1' + (className ? '.' + className : ''), [(0, _h2.default)('figure.mo.relative', [(0, _h2.default)('img', {
+    props: {
+      src: 'images/' + directory + '/' + imageObj.fileName + '.jpg',
       alt: imageObj.title
-    } }), (0, _h2.default)('figcaption', imageObj.title)]);
+    },
+
+    on: { click: openModal }
+  }), (0, _h2.default)('figcaption', imageObj.title)])]);
 };
 
 var header = function header(_) {
-  return (0, _h2.default)('header', [(0, _h2.default)('h1', 'Yutaka Houlette'), (0, _h2.default)('h2', 'Design  Code  Illustration'), (0, _h2.default)('a', 'mail@yutakahoulette.com')]);
+  return (0, _h2.default)('header.p1.mb2', [(0, _h2.default)('h1', 'Yutaka Houlette'), (0, _h2.default)('h2', 'Design  Code  Illustration'), (0, _h2.default)('a', 'mail@yutakahoulette.com')]);
+};
+
+var openModal = function openModal(e) {
+  var image = e.target;
+  data.modalData.src = image.getAttribute('src');
+  data.modalData.alt = image.getAttribute('alt');
+  render();
+};
+
+var imageModal = function imageModal(modalData) {
+  return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0', { style: { background: 'rgba(0,0,0,0.7)' } }, [(0, _h2.default)('div.flex.justify-center.items-center.m0.p1', {
+    style: { height: '100%' },
+    on: { click: closeModal }
+  }, [(0, _h2.default)('img', { props: { src: modalData.src, alt: modalData.alt } })])]);
+};
+
+var closeModal = function closeModal(e) {
+  if (e.target.tagName.toLocaleLowerCase() === 'img') return;
+  data.modalData.src = false;
+  render();
 };
 
 var render = function render(_) {
