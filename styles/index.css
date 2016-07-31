@@ -11,14 +11,38 @@ a {
   border-bottom: 2px solid rgb(174, 202, 211);
 }
 
+
 body {
   background: rgb(243, 243, 243);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.o0 {
+  opacity: 0;
+}
+
+.o1 {
+  opacity: 1;
+}
+
+.scrim {
+  background: rgba(0,0,0,0.6);
 }
 
 .container {
   margin: 0 auto;
   max-width: 1000px;
-  width: 100%;
 }
 
 hr {
@@ -27,27 +51,18 @@ hr {
   margin-top: 5px;
 }
 
-figure {
-  margin: 0;
-  position: relative;
-}
 
 figcaption {
-  position: absolute;
-  bottom: 0;
-  box-sizing: border-box;
-  left: 0;
-  opacity: 0;
-  padding: 10px;
-  width: 100%;
-  background: rgba(0,0,0,0.6);
   color: white;
   content: attr(alt);
-  transition: all ease-out 0.1s;
 }
 
 figure:hover figcaption {
   opacity: 1;
+}
+
+.transO {
+  transition: opacity ease-out 0.2s;
 }
 
 img {

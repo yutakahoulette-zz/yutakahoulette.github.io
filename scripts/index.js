@@ -4,6 +4,8 @@ import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
 import images from './images'
 
+window.R = R
+
 flyd.mergeAll = require('flyd/module/mergeall')
 flyd.filter = require('flyd/module/filter')
 
@@ -37,16 +39,16 @@ const korematsu = _ =>
 
 const imageBox = (directory, imageObj, expand, className) =>
   h(`div.pb1.pl1${className ? '.' + className : ''}`, [
-    h('figure.mo.relative', [
+    h('figure.m0.relative', [
       h('img', { 
         props: {
           src: `images/${directory}/${imageObj.fileName}.jpg`
         , alt: imageObj.title 
         }
-      , 
-        on: {click: openModal}
+      , class: {pointer: expand}
+      , on: {click: openModal}
       })
-    , h('figcaption', imageObj.title) 
+    , h('figcaption.absolute.bottom-0.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title) 
     ])
   ])
 
@@ -64,14 +66,16 @@ const openModal = e => {
   render()
 }
 
+
 const imageModal = (modalData) => 
-   h('div.fixed.bottom-0.right-0.top-0.left-0', 
-    {style: {background: 'rgba(0,0,0,0.7)'}}
-  , [h('div.flex.justify-center.items-center.m0.p1'
-    , {
-        style: {height: '100%'}
-      , on: {click: closeModal}
-      }
+  h('div.modal.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', {
+    style: {
+      delayed:  { opacity: '1'}
+    , remove: {opacity: '0'}
+    }
+  }
+  , [h('div.flex.justify-center.items-center.fullHeight.p1'
+    , { on: {click: closeModal}}
     , [h('img', {props: {src: modalData.src, alt: modalData.alt}})])
     ]
   )

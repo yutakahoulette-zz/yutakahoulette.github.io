@@ -10227,6 +10227,8 @@ var _images2 = _interopRequireDefault(_images);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+window.R = _ramda2.default;
+
 _flyd2.default.mergeAll = require('flyd/module/mergeall');
 _flyd2.default.filter = require('flyd/module/filter');
 
@@ -10252,14 +10254,14 @@ var korematsu = function korematsu(_) {
 };
 
 var imageBox = function imageBox(directory, imageObj, expand, className) {
-  return (0, _h2.default)('div.pb1.pl1' + (className ? '.' + className : ''), [(0, _h2.default)('figure.mo.relative', [(0, _h2.default)('img', {
+  return (0, _h2.default)('div.pb1.pl1' + (className ? '.' + className : ''), [(0, _h2.default)('figure.m0.relative', [(0, _h2.default)('img', {
     props: {
       src: 'images/' + directory + '/' + imageObj.fileName + '.jpg',
       alt: imageObj.title
     },
-
+    class: { pointer: expand },
     on: { click: openModal }
-  }), (0, _h2.default)('figcaption', imageObj.title)])]);
+  }), (0, _h2.default)('figcaption.absolute.bottom-0.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title)])]);
 };
 
 var header = function header(_) {
@@ -10274,10 +10276,12 @@ var openModal = function openModal(e) {
 };
 
 var imageModal = function imageModal(modalData) {
-  return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0', { style: { background: 'rgba(0,0,0,0.7)' } }, [(0, _h2.default)('div.flex.justify-center.items-center.m0.p1', {
-    style: { height: '100%' },
-    on: { click: closeModal }
-  }, [(0, _h2.default)('img', { props: { src: modalData.src, alt: modalData.alt } })])]);
+  return (0, _h2.default)('div.modal.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', {
+    style: {
+      delayed: { opacity: '1' },
+      remove: { opacity: '0' }
+    }
+  }, [(0, _h2.default)('div.flex.justify-center.items-center.fullHeight.p1', { on: { click: closeModal } }, [(0, _h2.default)('img', { props: { src: modalData.src, alt: modalData.alt } })])]);
 };
 
 var closeModal = function closeModal(e) {
