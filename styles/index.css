@@ -28,6 +28,12 @@ body {
   width: 100%;
 }
 
+.verticallyCenter {
+  position: relative;
+  top: 50%;
+  transform: perspective(1px) translateY(-50%);
+}
+
 .o0 {
   opacity: 0;
 }

@@ -24,23 +24,23 @@ const view = data => {
 
 const header = _ => 
   h('header.p1.mb2', [
-    h('h1', 'Yutaka Houlette')    
-  , h('h2', 'Design  Code  Illustration')
-  , h('a', 'mail@yutakahoulette.com')
+    h('h1.h2.m0.pr3.inline-block', 'Yutaka Houlette')    
+  , h('h2.h4.pr3.m0.inline-block', 'Design  Code  Illustration')
+  , h('a.m0', 'mail@yutakahoulette.com')
   ])
 
 const main = _ =>
   h('main.pr1', [
-    h('section.flex.flex-wrap.content-end', korematsu())
-  , h('section.flex.flex-wrap.content-end', [imageBox({src: 'si-clouds', title: 'asdf'}, true)])
+    h('section.clearFix', korematsu())
+  , h('section.flex.flex-wrap', [imageBox({src: 'si-clouds', title: 'asdf'}, true)])
     ]
   )
 
 const korematsu = _ => 
-  R.map(x => imageBox(x, true, 'col-6'), images.korematsu) 
+  R.map(x => imageBox(x, true, '.col-6.left'), images.korematsu) 
 
 const imageBox = (imageObj, expand, className) =>
-  h(`div.pb1.pl1${className ? '.' + className : ''}`, [
+  h(`div.pb1.pl1${className ? className : ''}`, [
     h('figure.m0.relative', [
       h('img', { 
         props: {
@@ -55,15 +55,22 @@ const imageBox = (imageObj, expand, className) =>
   ])
 
 const imageModal = (modalData) => 
-  h('div.modal.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', {
-    style: {
-      delayed:  { opacity: '1'}
-    , remove: {opacity: '0'}
+  h('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO'
+  , {
+      style: {
+        delayed:  { opacity: '1'}
+      , remove: {opacity: '0'}
+      }
+    , on: {click: closeModal}
     }
-  }
-  , [h('div.flex.justify-center.items-center.fullHeight.p2'
-    , { on: {click: closeModal}}
-    , [h('img', {props: {src: modalData.src, alt: modalData.alt}})])
+  , [
+      h('div.fullWidth.fullHeight.center.p2'
+      , [
+          h('img.verticallyCenter'
+            , {props: {src: modalData.src, alt: modalData.alt}}
+          )
+        ]
+      )
     ]
   )
 

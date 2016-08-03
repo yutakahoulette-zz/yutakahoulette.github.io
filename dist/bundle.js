@@ -9397,21 +9397,21 @@ var view = function view(data) {
 };
 
 var header = function header(_) {
-  return (0, _h2.default)('header.p1.mb2', [(0, _h2.default)('h1', 'Yutaka Houlette'), (0, _h2.default)('h2', 'Design  Code  Illustration'), (0, _h2.default)('a', 'mail@yutakahoulette.com')]);
+  return (0, _h2.default)('header.p1.mb2', [(0, _h2.default)('h1.h2.m0.pr3.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.pr3.m0.inline-block', 'Design  Code  Illustration'), (0, _h2.default)('a.m0', 'mail@yutakahoulette.com')]);
 };
 
 var main = function main(_) {
-  return (0, _h2.default)('main.pr1', [(0, _h2.default)('section.flex.flex-wrap.content-end', korematsu()), (0, _h2.default)('section.flex.flex-wrap.content-end', [imageBox({ src: 'si-clouds', title: 'asdf' }, true)])]);
+  return (0, _h2.default)('main.pr1', [(0, _h2.default)('section.clearFix', korematsu()), (0, _h2.default)('section.flex.flex-wrap', [imageBox({ src: 'si-clouds', title: 'asdf' }, true)])]);
 };
 
 var korematsu = function korematsu(_) {
   return _ramda2.default.map(function (x) {
-    return imageBox(x, true, 'col-6');
+    return imageBox(x, true, '.col-6.left');
   }, _images2.default.korematsu);
 };
 
 var imageBox = function imageBox(imageObj, expand, className) {
-  return (0, _h2.default)('div.pb1.pl1' + (className ? '.' + className : ''), [(0, _h2.default)('figure.m0.relative', [(0, _h2.default)('img', {
+  return (0, _h2.default)('div.pb1.pl1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative', [(0, _h2.default)('img', {
     props: {
       src: 'images/' + imageObj.src + '.jpg',
       alt: imageObj.title
@@ -9422,12 +9422,13 @@ var imageBox = function imageBox(imageObj, expand, className) {
 };
 
 var imageModal = function imageModal(modalData) {
-  return (0, _h2.default)('div.modal.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', {
+  return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', {
     style: {
       delayed: { opacity: '1' },
       remove: { opacity: '0' }
-    }
-  }, [(0, _h2.default)('div.flex.justify-center.items-center.fullHeight.p2', { on: { click: closeModal } }, [(0, _h2.default)('img', { props: { src: modalData.src, alt: modalData.alt } })])]);
+    },
+    on: { click: closeModal }
+  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.verticallyCenter', { props: { src: modalData.src, alt: modalData.alt } })])]);
 };
 
 var openModal = function openModal(e) {
