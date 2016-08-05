@@ -9356,6 +9356,11 @@ module.exports = function(sel, data, children, text, elm) {
 };
 
 },{}],12:[function(require,module,exports){
+"use strict";
+
+module.exports = "During the day, I design and build user interfaces";
+
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var images = {};
@@ -9364,7 +9369,7 @@ images.korematsu = [{ src: 'korematsu/ch-1-800', title: 'Fred Korematsu Speaks U
 
 module.exports = images;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var _ramda = require('ramda');
@@ -9383,6 +9388,10 @@ var _images = require('./images');
 
 var _images2 = _interopRequireDefault(_images);
 
+var _aboutText = require('./about-text');
+
+var _aboutText2 = _interopRequireDefault(_aboutText);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var vnode = void 0;
@@ -9397,16 +9406,16 @@ var view = function view(data) {
 };
 
 var header = function header(_) {
-  return (0, _h2.default)('header.p1.mb2', [(0, _h2.default)('h1.h2.m0.pr3.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.pr3.m0.inline-block', 'Design  Code  Illustration'), (0, _h2.default)('a.m0', 'mail@yutakahoulette.com')]);
+  return (0, _h2.default)('header.p1.my2.table.fullWidth', [(0, _h2.default)('div.table-cell.align-middle', { style: { width: '80px' } }, [(0, _h2.default)('div.circle.slideShow')]), (0, _h2.default)('div.table-cell.align-middle.pl1', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _h2.default)('a.mr2', 'Illustration'), (0, _h2.default)('a.mr2', 'Code/Design'), (0, _h2.default)('a.mr2', 'About')])])]);
 };
 
 var main = function main(_) {
-  return (0, _h2.default)('main.pr1', [(0, _h2.default)('section.clearFix', korematsu()), (0, _h2.default)('section.flex.flex-wrap', [imageBox({ src: 'si-clouds', title: 'asdf' }, true)])]);
+  return (0, _h2.default)('main.pr1', [(0, _h2.default)('section.clearFix', korematsu()), (0, _h2.default)('section', [(0, _h2.default)('hr'), (0, _h2.default)('h2', 'About'), (0, _h2.default)('p', _aboutText2.default)])]);
 };
 
 var korematsu = function korematsu(_) {
   return _ramda2.default.map(function (x) {
-    return imageBox(x, true, '.col-6.left');
+    return imageBox(x, true, '.col-4.left');
   }, _images2.default.korematsu);
 };
 
@@ -9454,4 +9463,4 @@ window.addEventListener('DOMContentLoaded', function () {
   render();
 });
 
-},{"./images":12,"ramda":1,"snabbdom":10,"snabbdom/h":2,"snabbdom/modules/attributes":5,"snabbdom/modules/class":6,"snabbdom/modules/eventlisteners":7,"snabbdom/modules/props":8,"snabbdom/modules/style":9}]},{},[13]);
+},{"./about-text":12,"./images":13,"ramda":1,"snabbdom":10,"snabbdom/h":2,"snabbdom/modules/attributes":5,"snabbdom/modules/class":6,"snabbdom/modules/eventlisteners":7,"snabbdom/modules/props":8,"snabbdom/modules/style":9}]},{},[14]);

@@ -11,10 +11,20 @@ a {
   border-bottom: 2px solid rgb(174, 202, 211);
 }
 
-
 body {
   background: rgb(243, 243, 243);
 }
+
+.slideShow {
+  width: 70px;
+  height: 70px;
+  background: grey;
+}
+
+header:hover .slideShow {
+  background: url('images/yh-slideshow.gif');
+}
+
 
 .pointer {
   cursor: pointer;
@@ -53,7 +63,7 @@ body {
 
 hr {
   border: none;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  border-top: 2px solid rgba(0,0,0,0.1);
   margin-top: 5px;
 }
 
@@ -69,6 +79,7 @@ figure:hover figcaption {
 
 .transO {
   transition: opacity ease-out 0.2s;
+  transform: translatez(0);
 }
 
 img {

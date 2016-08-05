@@ -2,6 +2,7 @@ import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
 import images from './images'
+import aboutText from './about-text'
 
 let vnode
 let data = {modalData: {}}
@@ -23,21 +24,40 @@ const view = data => {
 }
 
 const header = _ => 
-  h('header.p1.mb2', [
-    h('h1.h2.m0.pr3.inline-block', 'Yutaka Houlette')    
-  , h('h2.h4.pr3.m0.inline-block', 'Design  Code  Illustration')
-  , h('a.m0', 'mail@yutakahoulette.com')
+  h('header.p1.my2.table.fullWidth', [
+    h('div.table-cell.align-middle'
+    , {style: { width: '80px'}}
+    , [h('div.circle.slideShow')]
+    )
+  , h('div.table-cell.align-middle.pl1', [
+      h('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette')    
+    , h('h2.h4.regular.my0.inline-block', 'Illustrator & UX Engineer')
+    , h('div.mt1'
+      , [ 
+          h('a.mr2', 'Illustration')
+        , h('a.mr2', 'Code/Design')
+        , h('a.mr2', 'About')
+        ]
+      )
+    ])
   ])
 
 const main = _ =>
-  h('main.pr1', [
-    h('section.clearFix', korematsu())
-  , h('section.flex.flex-wrap', [imageBox({src: 'si-clouds', title: 'asdf'}, true)])
+  h('main.pr1'
+  , [
+      h('section.clearFix', korematsu())
+    , h('section'
+      , [
+          h('hr')
+        , h('h2', 'About')
+        , h('p', aboutText)
+        ]
+      )
     ]
   )
 
 const korematsu = _ => 
-  R.map(x => imageBox(x, true, '.col-6.left'), images.korematsu) 
+  R.map(x => imageBox(x, true, '.col-4.left'), images.korematsu) 
 
 const imageBox = (imageObj, expand, className) =>
   h(`div.pb1.pl1${className ? className : ''}`, [
