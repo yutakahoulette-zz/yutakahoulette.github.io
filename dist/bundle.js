@@ -9356,11 +9356,84 @@ module.exports = function(sel, data, children, text, elm) {
 };
 
 },{}],12:[function(require,module,exports){
+'use strict';
+
+var _h = require('snabbdom/h');
+
+var _h2 = _interopRequireDefault(_h);
+
+var _link = require('./link');
+
+var _link2 = _interopRequireDefault(_link);
+
+var _id = require('./id');
+
+var _id2 = _interopRequireDefault(_id);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var body = function body(_) {
+  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'About'), (0, _h2.default)('div.readable.smooth', [(0, _h2.default)('p', "I'm an illustrator and UX engineer based in Oakland, California."), (0, _h2.default)('p', ["During the day, I design and build user interfaces at ", (0, _link2.default)('', 'https://commitchange.com', 'CommitChange', true), " a fundraising platform for nonprofits and social-good companies. I'm fortunate enough to have the flexibility to take on occasional freelance projects. Most recently, I illustrated a book about the Japanese-American civil rights hero, ", (0, _link2.default)('', "https://en.wikipedia.org/wiki/Fred_Korematsu", 'Fred Korematsu', true), " (forthcoming from Heyday Books). Some other clients include Smithsonian Magazine and Orion Magazine."]), (0, _h2.default)('p', "In addition to illustration, I'm passionate about interaction design, functional programming, and data visualization."), (0, _h2.default)('p.mb1', "Please drop me a line if you'd like to work together."), (0, _h2.default)('ul.mt0', [(0, _h2.default)('li', '415-940-5012'), (0, _h2.default)('li', [(0, _h2.default)('a', { props: { href: 'mailto:mail@yutakahoulette.com' } }, "mail@yutakahoulette.com")])])])];
+};
+
+module.exports = function (_) {
+  return (0, _h2.default)('section.pl1', (0, _id2.default)('about'), body());
+};
+
+},{"./id":15,"./link":18,"snabbdom/h":2}],13:[function(require,module,exports){
+'use strict';
+
+var _h = require('snabbdom/h');
+
+var _h2 = _interopRequireDefault(_h);
+
+var _link = require('./link');
+
+var _link2 = _interopRequireDefault(_link);
+
+var _id = require('./id');
+
+var _id2 = _interopRequireDefault(_id);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var body = function body(_) {
+  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'Code'), (0, _h2.default)('div.clearFix', [browserImg({ src: 'images/code/kumiki.gif', alt: 'asdf', css: '.col-6' }), (0, _h2.default)('p', 'asdfasdfasdf')])];
+};
+
+var browserImg = function browserImg(o) {
+  return (0, _h2.default)('figure.m0.relative.browserImage' + o.css, [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: { src: o.src, alt: o.alt } })]);
+};
+
+module.exports = function (_) {
+  return (0, _h2.default)('section.p1', (0, _id2.default)('code'), body());
+};
+
+},{"./id":15,"./link":18,"snabbdom/h":2}],14:[function(require,module,exports){
+'use strict';
+
+var _link = require('./link');
+
+var _link2 = _interopRequireDefault(_link);
+
+var _h = require('snabbdom/h');
+
+var _h2 = _interopRequireDefault(_h);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function (_) {
+  return (0, _h2.default)('header.p1.mt1.mb2', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
+};
+
+},{"./link":18,"snabbdom/h":2}],15:[function(require,module,exports){
 "use strict";
 
-module.exports = "During the day, I design and build user interfaces";
+module.exports = function (id) {
+  return { props: { id: id } };
+};
 
-},{}],13:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var images = {};
@@ -9369,7 +9442,7 @@ images.korematsu = [{ src: 'korematsu/ch-1-800', title: 'Fred Korematsu Speaks U
 
 module.exports = images;
 
-},{}],14:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var _ramda = require('ramda');
@@ -9388,9 +9461,25 @@ var _images = require('./images');
 
 var _images2 = _interopRequireDefault(_images);
 
-var _aboutText = require('./about-text');
+var _header = require('./header');
 
-var _aboutText2 = _interopRequireDefault(_aboutText);
+var _header2 = _interopRequireDefault(_header);
+
+var _code = require('./code');
+
+var _code2 = _interopRequireDefault(_code);
+
+var _about = require('./about');
+
+var _about2 = _interopRequireDefault(_about);
+
+var _link = require('./link');
+
+var _link2 = _interopRequireDefault(_link);
+
+var _id = require('./id');
+
+var _id2 = _interopRequireDefault(_id);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9400,17 +9489,17 @@ var data = { modalData: {} };
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
 
 var view = function view(data) {
-  var content = [header(), main()];
+  var content = [(0, _header2.default)(), main()];
   content = data.modalData.src ? _ramda2.default.concat(content, imageModal(data.modalData)) : content;
   return (0, _h2.default)('div.container', content);
 };
 
-var header = function header(_) {
-  return (0, _h2.default)('header.p1.my2.table.fullWidth', [(0, _h2.default)('div.table-cell.align-middle', { style: { width: '80px' } }, [(0, _h2.default)('div.circle.slideShow')]), (0, _h2.default)('div.table-cell.align-middle.pl1', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _h2.default)('a.mr2', 'Illustration'), (0, _h2.default)('a.mr2', 'Code/Design'), (0, _h2.default)('a.mr2', 'About')])])]);
+var main = function main(_) {
+  return (0, _h2.default)('main.pr1', [illustration(), (0, _code2.default)(), (0, _about2.default)()]);
 };
 
-var main = function main(_) {
-  return (0, _h2.default)('main.pr1', [(0, _h2.default)('section.clearFix', korematsu()), (0, _h2.default)('section', [(0, _h2.default)('hr'), (0, _h2.default)('h2', 'About'), (0, _h2.default)('p', _aboutText2.default)])]);
+var illustration = function illustration(_) {
+  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.pr1.clearFix', korematsu())]);
 };
 
 var korematsu = function korematsu(_) {
@@ -9421,23 +9510,16 @@ var korematsu = function korematsu(_) {
 
 var imageBox = function imageBox(imageObj, expand, className) {
   return (0, _h2.default)('div.pb1.pl1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative', [(0, _h2.default)('img', {
-    props: {
-      src: 'images/' + imageObj.src + '.jpg',
-      alt: imageObj.title
-    },
+    props: { src: 'images/' + imageObj.src + '.jpg', alt: imageObj.title },
     class: { pointer: expand },
     on: { click: openModal }
-  }), (0, _h2.default)('figcaption.absolute.bottom-0.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title)])]);
+  }), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title)])]);
 };
 
 var imageModal = function imageModal(modalData) {
-  return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', {
-    style: {
-      delayed: { opacity: '1' },
-      remove: { opacity: '0' }
-    },
+  return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', { style: { delayed: { opacity: '1' }, remove: { opacity: '0' } },
     on: { click: closeModal }
-  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.verticallyCenter', { props: { src: modalData.src, alt: modalData.alt } })])]);
+  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.dropShadow.verticallyCenter', { props: { src: modalData.src, alt: modalData.alt } })])]);
 };
 
 var openModal = function openModal(e) {
@@ -9463,4 +9545,18 @@ window.addEventListener('DOMContentLoaded', function () {
   render();
 });
 
-},{"./about-text":12,"./images":13,"ramda":1,"snabbdom":10,"snabbdom/h":2,"snabbdom/modules/attributes":5,"snabbdom/modules/class":6,"snabbdom/modules/eventlisteners":7,"snabbdom/modules/props":8,"snabbdom/modules/style":9}]},{},[14]);
+},{"./about":12,"./code":13,"./header":14,"./id":15,"./images":16,"./link":18,"ramda":1,"snabbdom":10,"snabbdom/h":2,"snabbdom/modules/attributes":5,"snabbdom/modules/class":6,"snabbdom/modules/eventlisteners":7,"snabbdom/modules/props":8,"snabbdom/modules/style":9}],18:[function(require,module,exports){
+'use strict';
+
+var _h = require('snabbdom/h');
+
+var _h2 = _interopRequireDefault(_h);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function (cssClass, href, text, targetBlank) {
+  var props = targetBlank ? { target: '_blank', href: href } : { href: href };
+  return (0, _h2.default)('a' + (cssClass || ''), { props: props }, text);
+};
+
+},{"snabbdom/h":2}]},{},[17]);

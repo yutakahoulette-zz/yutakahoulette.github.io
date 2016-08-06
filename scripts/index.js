@@ -2,7 +2,11 @@ import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
 import images from './images'
-import aboutText from './about-text'
+import header from './header'
+import code from './code'
+import about from './about'
+import link from './link'
+import id from './id'
 
 let vnode
 let data = {modalData: {}}
@@ -23,38 +27,23 @@ const view = data => {
   return h('div.container', content)
 }
 
-const header = _ => 
-  h('header.p1.my2.table.fullWidth', [
-    h('div.table-cell.align-middle'
-    , {style: { width: '80px'}}
-    , [h('div.circle.slideShow')]
-    )
-  , h('div.table-cell.align-middle.pl1', [
-      h('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette')    
-    , h('h2.h4.regular.my0.inline-block', 'Illustrator & UX Engineer')
-    , h('div.mt1'
-      , [ 
-          h('a.mr2', 'Illustration')
-        , h('a.mr2', 'Code/Design')
-        , h('a.mr2', 'About')
-        ]
-      )
-    ])
-  ])
-
 const main = _ =>
   h('main.pr1'
   , [
-      h('section.clearFix', korematsu())
-    , h('section'
-      , [
-          h('hr')
-        , h('h2', 'About')
-        , h('p', aboutText)
-        ]
-      )
+      illustration()
+    , code()
+    , about()
     ]
   )
+
+const illustration = _ =>
+  h('section.mt3', id('illustration')
+  , [
+      h('h3.italic.px1', 'Illustration') 
+    , h('div.pr1.clearFix', korematsu())
+    ]
+  )
+
 
 const korematsu = _ => 
   R.map(x => imageBox(x, true, '.col-4.left'), images.korematsu) 
@@ -63,33 +52,21 @@ const imageBox = (imageObj, expand, className) =>
   h(`div.pb1.pl1${className ? className : ''}`, [
     h('figure.m0.relative', [
       h('img', { 
-        props: {
-          src: `images/${imageObj.src}.jpg`
-        , alt: imageObj.title 
-        }
+        props: {src: `images/${imageObj.src}.jpg`, alt: imageObj.title}
       , class: {pointer: expand}
       , on: {click: openModal}
       })
-    , h('figcaption.absolute.bottom-0.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title) 
+    , h('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title) 
     ])
   ])
 
 const imageModal = (modalData) => 
   h('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO'
-  , {
-      style: {
-        delayed:  { opacity: '1'}
-      , remove: {opacity: '0'}
-      }
+  , { style: { delayed: { opacity: '1'}, remove: {opacity: '0'}}
     , on: {click: closeModal}
     }
-  , [
-      h('div.fullWidth.fullHeight.center.p2'
-      , [
-          h('img.verticallyCenter'
-            , {props: {src: modalData.src, alt: modalData.alt}}
-          )
-        ]
+  , [ h('div.fullWidth.fullHeight.center.p2'
+      , [h('img.dropShadow.verticallyCenter', {props: {src: modalData.src, alt: modalData.alt}})]
       )
     ]
   )

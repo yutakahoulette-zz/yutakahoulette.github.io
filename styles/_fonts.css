@@ -33,8 +33,13 @@
 }
 
 html { 
-  font-size: 17px;
+  font-size: 19px;
   font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+}
+
+.sans {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  letter-spacing: 0.7;
 }
 
 
