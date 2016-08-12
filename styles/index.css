@@ -6,11 +6,14 @@
  box-sizing: border-box;   
 }
 
+
+$blue: rgb(174, 202, 211);
+
 a {
   cursor: pointer;
   color: black !important;
   text-decoration: none !important;
-  border-bottom: 2px solid rgb(174, 202, 211);
+  border-bottom: 2px solid $blue;
 }
 
 body {
