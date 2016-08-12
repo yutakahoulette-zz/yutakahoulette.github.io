@@ -5,7 +5,7 @@ import id from './id'
 let body = _ => [
   h('hr')
 , h('h3.mb1.italic', 'About')
-, h('div.readable.smooth'
+, h('article.readable.smooth'
     , [
         h('p', "I'm an illustrator and UX engineer based in Oakland, California.")
       , h('p', [

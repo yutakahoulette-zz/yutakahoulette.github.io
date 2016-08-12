@@ -9373,7 +9373,7 @@ var _id2 = _interopRequireDefault(_id);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var body = function body(_) {
-  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'About'), (0, _h2.default)('div.readable.smooth', [(0, _h2.default)('p', "I'm an illustrator and UX engineer based in Oakland, California."), (0, _h2.default)('p', ["During the day, I design and build user interfaces at ", (0, _link2.default)('', 'https://commitchange.com', 'CommitChange', true), " a fundraising platform for nonprofits and social-good companies. I'm fortunate enough to have the flexibility to take on occasional freelance projects. Most recently, I illustrated a book about the Japanese-American civil rights hero, ", (0, _link2.default)('', "https://en.wikipedia.org/wiki/Fred_Korematsu", 'Fred Korematsu', true), " (forthcoming from Heyday Books). Some other clients include Smithsonian Magazine and Orion Magazine."]), (0, _h2.default)('p', "In addition to illustration, I'm passionate about interaction design, functional programming, and data visualization."), (0, _h2.default)('p.mb1', "Please drop me a line if you'd like to work together."), (0, _h2.default)('ul.mt0', [(0, _h2.default)('li', '415-940-5012'), (0, _h2.default)('li', [(0, _h2.default)('a', { props: { href: 'mailto:mail@yutakahoulette.com' } }, "mail@yutakahoulette.com")])])])];
+  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'About'), (0, _h2.default)('article.readable.smooth', [(0, _h2.default)('p', "I'm an illustrator and UX engineer based in Oakland, California."), (0, _h2.default)('p', ["During the day, I design and build user interfaces at ", (0, _link2.default)('', 'https://commitchange.com', 'CommitChange', true), " a fundraising platform for nonprofits and social-good companies. I'm fortunate enough to have the flexibility to take on occasional freelance projects. Most recently, I illustrated a book about the Japanese-American civil rights hero, ", (0, _link2.default)('', "https://en.wikipedia.org/wiki/Fred_Korematsu", 'Fred Korematsu', true), " (forthcoming from Heyday Books). Some other clients include Smithsonian Magazine and Orion Magazine."]), (0, _h2.default)('p', "In addition to illustration, I'm passionate about interaction design, functional programming, and data visualization."), (0, _h2.default)('p.mb1', "Please drop me a line if you'd like to work together."), (0, _h2.default)('ul.mt0', [(0, _h2.default)('li', '415-940-5012'), (0, _h2.default)('li', [(0, _h2.default)('a', { props: { href: 'mailto:mail@yutakahoulette.com' } }, "mail@yutakahoulette.com")])])])];
 };
 
 module.exports = function (_) {
@@ -9398,11 +9398,26 @@ var _id2 = _interopRequireDefault(_id);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var body = function body(_) {
-  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'Code'), (0, _h2.default)('div.clearFix', [browserImg({ src: 'images/code/kumiki.gif', alt: 'asdf', css: '.col-6' }), (0, _h2.default)('p', 'asdfasdfasdf')])];
+  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'Code'), article({ left: true, title: 'Kumiki', p: 'asdf',
+    img: { src: 'images/code/kumiki.gif', alt: 'asdf' } })];
+};
+
+var article = function article(o) {
+  var padding = function padding(left) {
+    return left ? '.pr2' : '.pl2';
+  };
+  var textAlign = function textAlign(left) {
+    return left ? '.right-align' : '';
+  };
+
+  var img = browserImg(o.img);
+  var txt = (0, _h2.default)('figcation.table-cell.align-middle.col-5' + padding(!o.left) + textAlign(!o.left), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
+  var content = [o.left ? img : txt, o.left ? txt : img];
+  return (0, _h2.default)('article.table.fullWidth', content);
 };
 
 var browserImg = function browserImg(o) {
-  return (0, _h2.default)('figure.m0.relative.browserImage' + o.css, [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: { src: o.src, alt: o.alt } })]);
+  return (0, _h2.default)('figure.m0.relative.browserImage.col-7.table-cell', [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o })]);
 };
 
 module.exports = function (_) {
