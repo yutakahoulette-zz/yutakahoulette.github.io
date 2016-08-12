@@ -3,6 +3,7 @@ import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
 import loaded from 'imagesloaded'
+import bricks from 'image-gallery'
 
 import images from './images'
 import header from './header'
@@ -31,7 +32,7 @@ const view = data => {
 }
 
 const main = _ =>
-  h('main.pr1'
+  h('main'
   , [
       illustration()
     , code()
@@ -40,13 +41,30 @@ const main = _ =>
   )
 
 const illustration = _ =>
-  h('section.mt3', id('illustration')
+  h('section.mt3.mr1', id('illustration')
   , [
       h('h3.italic.px1', 'Illustration') 
-    , h('div.pr1.clearFix', korematsu())
-    , h('div', R.map(x => img(x), images.illo))
+    , h('div.clearFix', korematsu())
+    , h('div.bricks.m1', {
+        hook: {insert: brickIt}}
+      , R.map(x => img(x), images.illo))
     ]
   )
+
+const img = (o, className) =>
+  h(`img.pointer.o0.inline-block${className ? className : ''}`, { 
+    props: {src: `images/${o.src}.jpg`, alt: o.title}
+  , on: {click: openModal}
+  , hook: {insert: fadeIn}
+  })
+
+const fadeIn = x => {
+  loaded(x.elm, i => {
+    i.images[0].img.style.opacity = '1'
+  })
+}
+
+const brickIt = x => bricks('.bricks', { use: [ bricks.Responsive ]}) 
 
 const korematsu = _ => 
   R.map(x => imageBox(x, '.col-4.left'), images.korematsu) 
@@ -59,18 +77,6 @@ const imageBox = (imageObj, className) =>
     ])
   ])
 
-const img = o =>
-  h('img.pointer.o0.transO', { 
-    props: {src: `images/${o.src}.jpg`, alt: o.title}
-  , on: {click: openModal}
-  , hook: {insert: fadeIn}
-  })
-
-const fadeIn = x => {
-  loaded(x.elm, i => {
-    i.images[0].img.style.opacity = '1'
-  })
-}
 
 const imageModal = (modalData) => 
   h('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO'

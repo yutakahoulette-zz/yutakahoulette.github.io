@@ -110,6 +110,904 @@ return EvEmitter;
 }));
 
 },{}],2:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
+      }
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],3:[function(require,module,exports){
+var ImageGallery = require('./lib/image-gallery');
+
+module.exports = ImageGallery;
+
+///// extensions
+
+ImageGallery.LazyLoading = require('./lib/lazy-loading');
+ImageGallery.Responsive = require('./lib/responsive');
+
+},{"./lib/image-gallery":4,"./lib/lazy-loading":5,"./lib/responsive":6}],4:[function(require,module,exports){
+var EventEmitter = require('events');
+
+var inherits = require('inherits');
+
+var xtend = require('xtend');
+
+var layout = require('image-layout/layouts/fixed-partition');
+
+
+var DEFAULT_OPTIONS = {
+  selectors: {
+    image: 'img'
+  },
+  use: []
+};
+
+var selectAll = require('./util/select-all'),
+    attr = require('./util/attr');
+
+
+/**
+ * Create a new image gallery on a given DOM element.
+ *
+ * @param {String|DOMElement} $el
+ * @param {Object} options
+ */
+function ImageGallery(selector, options) {
+
+  if (!(this instanceof ImageGallery)) {
+    return new ImageGallery(selector, options);
+  }
+
+  EventEmitter.call(this);
+
+  this.setMaxListeners(0);
+
+  var nodes;
+
+  var self = this;
+
+  // selector argument
+  if (typeof selector === 'string') {
+    nodes = selectAll(selector);
+  } else
+
+  // dom node argument
+  if (!selector.length) {
+    nodes = [ selector ];
+  }
+
+  // node list argument
+  else {
+    nodes = selector;
+  }
+
+  // TODO(nikku): unwrap jQuery
+
+  options = xtend({}, DEFAULT_OPTIONS, options);
+
+  // initialize extensions
+
+  options.use.forEach(function(ext) {
+    if (!ext) {
+      throw undefinedExtension();
+    }
+
+    ext(self, options);
+  });
+
+  // create galleries
+  var imageSelector = options.selectors.image;
+
+  this.galleries = nodes.map(function(node) {
+    return self.createGallery(node, imageSelector);
+  });
+
+  this.emit('init');
+}
+
+inherits(ImageGallery, EventEmitter);
+
+module.exports = ImageGallery;
+
+/**
+ * Layout the gallery after its meta-data has been loaded.
+ *
+ * @param {Gallery} gallery
+ */
+ImageGallery.prototype.layout = function(gallery) {
+
+  var containerWidth = gallery.width = gallery.element.offsetWidth;
+
+  var result = layout(gallery.layoutData, {
+    align: 'center',
+    containerWidth: containerWidth,
+    idealElementHeight: gallery.imageHeight,
+    spacing: gallery.imageSpacing
+  });
+
+  this.emit('gallery:layout', gallery, result);
+
+  result.positions.forEach(function(position, idx) {
+    var img = gallery.images[idx];
+
+    img.style.width = position.width + 'px';
+    img.style.height = position.height + 'px';
+  });
+};
+
+ImageGallery.prototype.destroy = function() {
+  this.emit('destroy');
+};
+
+/**
+ * Create gallery on a given element for the
+ * specified images.
+ *
+ * @param {DOMNode} $el
+ * @param {String} imageSelector
+ * @return {Gallery}
+ */
+ImageGallery.prototype.createGallery = function($el, imageSelector) {
+
+  var self = this;
+
+  var images = selectAll(imageSelector, $el);
+
+  var imageHeight = attr($el, 'data-image-height');
+
+  // inherit optimal height from container
+  if (imageHeight === 'inherit') {
+    imageHeight = $el.offsetHeight;
+  } else {
+    imageHeight = parseInt(imageHeight, 10) || 300;
+  }
+
+  var imageSpacing = parseInt(attr($el, 'data-image-spacing'), 10) || 0;
+
+  var gallery = {
+    element: $el,
+    images: images,
+    imageHeight: imageHeight,
+    imageSpacing: imageSpacing,
+    layoutData: [],
+    loading: images.length
+  };
+
+  self.emit('gallery:create', gallery);
+
+  // parse dimensions asynchronously
+
+  images.forEach(function(img, idx) {
+
+    var dimensions = getDimensions(img);
+
+    if (dimensions) {
+      return self.setImageDimensions(gallery, idx, dimensions);
+    }
+
+    img.onload = function(e) {
+      // we loaded and are able to access the dimensions
+      // no need to trigger us again
+      delete img.onload;
+
+      self.setImageDimensions(gallery, idx, getDimensions(img));
+    };
+
+  });
+
+  return gallery;
+};
+
+ImageGallery.prototype.setImageDimensions = function(gallery, idx, dimensions) {
+
+  var self = this;
+
+  gallery.loading--;
+  gallery.layoutData[idx] = dimensions;
+
+  if (gallery.loading <= 0) {
+    self.layout(gallery);
+  }
+};
+
+
+/////// utilities /////////////////////////////////////
+
+
+/**
+ * Parse image dimensions from data attribute.
+ *
+ * @param {DOMImage} img
+ *
+ * @return {Dimensions}
+ */
+function getDimensions(img) {
+
+  if (img.complete) {
+    return {
+      width: img.width,
+      height: img.height
+    };
+  }
+
+  var dimensionsStr = attr(img, 'data-dimensions');
+
+  if (!dimensionsStr) {
+    return null;
+  }
+
+  var dimensions = dimensionsStr.split(',').map(function(str) {
+    return parseInt(str, 10);
+  });
+
+  return {
+    width: dimensions[0],
+    height: dimensions[1]
+  };
+}
+
+
+function undefinedExtension() {
+  return new Error('undefined extension, check options.use');
+}
+},{"./util/attr":7,"./util/select-all":10,"events":2,"image-layout/layouts/fixed-partition":11,"inherits":13,"xtend":25}],5:[function(require,module,exports){
+var on = require('./util/on'),
+    off = require('./util/off'),
+    attr = require('./util/attr');
+
+/**
+ * An image gallery preloader.
+ *
+ * @param {ImageGallery} imageGallery
+ * @param {Object} options
+ */
+module.exports = function(imageGallery, options) {
+
+  function loadImage(el, source) {
+    var img = new Image();
+
+    img.onload = function() {
+
+      /**
+       * Emitting event with (img, newSource, oldSource)
+       */
+      imageGallery.emit('image:preloaded', el, source, el.src);
+
+      el.src = source;
+    };
+
+    img.src = source;
+  }
+
+  function preloadGallery(gallery) {
+    gallery.preload = true;
+
+    gallery.images.forEach(function(img) {
+      var src = attr(img, 'data-full-src');
+
+      if (src) {
+        loadImage(img, src);
+      }
+    });
+  }
+
+  function processScroll() {
+    imageGallery.galleries.forEach(function(gallery) {
+      if (gallery.preload !== true && elementInViewport(gallery.element)) {
+        preloadGallery(gallery);
+      }
+    });
+  }
+
+  function elementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight)
+    );
+  }
+
+
+  on(window, 'touchmove', processScroll);
+  on(window, 'scroll', processScroll);
+
+  imageGallery.on('init', processScroll);
+
+  imageGallery.on('destroy', function() {
+    off(window, 'touchmove', processScroll);
+    off(window, 'scroll', processScroll);
+  });
+};
+},{"./util/attr":7,"./util/off":8,"./util/on":9}],6:[function(require,module,exports){
+var on = require('./util/on'),
+    off = require('./util/off');
+
+/**
+ * Making the image gallery react to window resize.
+ *
+ * @param {ImageGallery} imageGallery
+ * @param  {Object} options
+ */
+module.exports = function(imageGallery, options) {
+
+  var resizeListener = function(event) {
+
+    imageGallery.galleries.forEach(function(gallery) {
+
+      var width = gallery.element.offsetWidth;
+
+      // width change, trigger relayout
+      if (width !== gallery.width) {
+        imageGallery.layout(gallery);
+      }
+    });
+  };
+
+  on(window, 'resize', resizeListener);
+
+  imageGallery.on('destroy', function() {
+    off(window, 'resize', resizeListener);
+  });
+};
+
+},{"./util/off":8,"./util/on":9}],7:[function(require,module,exports){
+module.exports = function attr(element, name, value) {
+
+  if (typeof value === 'undefined') {
+    return element.getAttribute(name);
+  } else {
+    element.setAttribute(name, value);
+  }
+};
+},{}],8:[function(require,module,exports){
+module.exports = function off(element, event, fn) {
+  element.removeEventListener(event, fn, false);
+};
+},{}],9:[function(require,module,exports){
+module.exports = function on(element, event, fn) {
+  element.addEventListener(event, fn, false);
+};
+},{}],10:[function(require,module,exports){
+function slice(arrayLike) {
+  return Array.prototype.slice.call(arrayLike);
+}
+
+/**
+ * Select dom elements matching selector.
+ *
+ * @param {String} selector
+ * @param {DOMNode} [$el=document]
+ * @return {Array<DOMNode>}
+ */
+module.exports = function selectAll(selector, $el) {
+  return slice(($el || document).querySelectorAll(selector));
+};
+},{}],11:[function(require,module,exports){
+/**
+ * Algorithm: fixed-partition
+ *
+ * The algorithm outlined by Johannes Treitz in "The algorithm
+ * for a perfectly balanced photo gallery" (see url below).
+ *
+ * Options:
+ *   - containerWidth      Width of the parent container (in pixels)
+ *   - idealElementHeight  Ideal element height (in pixels)
+ *   - spacing             Spacing between items (in pixels)
+ *
+ * @throws
+ * @see https://www.crispymtn.com/stories/the-algorithm-for-a-perfectly-balanced-photo-gallery
+ * @param {object[]} elements
+ * @param {object} options
+ * @return {object}
+ */
+module.exports = function(elements, options) {
+	var i, n, positions = [], elementCount;
+
+	var spacing = options.spacing || 0;
+	var containerWidth = options.containerWidth;
+	var idealHeight = options.idealElementHeight || (containerWidth / 3);
+	if (!containerWidth) throw new Error('Invalid container width');
+
+	// calculate aspect ratio of all photos
+	var aspect;
+	var aspects = [];
+	var aspects100 = [];
+	for (i = 0, n = elements.length; i < n; i++) {
+		aspect = elements[i].width / elements[i].height;
+		aspects.push(aspect);
+		aspects100.push(Math.round(aspect * 100));
+	}
+
+	// calculate total width of all photos
+	var summedWidth = 0;
+	for (i = 0, n = aspects.length; i < n; i++) {
+		summedWidth += aspects[i] * idealHeight;
+	}
+
+	// calculate rows needed
+	var rowsNeeded = Math.round(summedWidth / containerWidth)
+
+	// adjust photo sizes
+	if (rowsNeeded < 1) {
+		// (2a) Fallback to just standard size
+		var xSum = 0, width;
+		elementCount = elements.length;
+
+		var padLeft = 0;
+		if (options.align === 'center') {
+			var spaceNeeded = (elementCount-1)*spacing;
+			for (var i = 0; i < elementCount; i++) {
+				spaceNeeded += Math.round(idealHeight * aspects[i]) - (spacing * (elementCount - 1) / elementCount);
+			}
+			padLeft = Math.floor((containerWidth - spaceNeeded) / 2);
+		}
+
+		for (var i = 0; i < elementCount; i++) {
+			width = Math.round(idealHeight * aspects[i]) - (spacing * (elementCount - 1) / elementCount);
+			positions.push({
+				y: 0,
+				x: padLeft + xSum,
+				width: width,
+				height: idealHeight
+			});
+			xSum += width;
+			if (i !== n - 1) {
+				xSum += spacing;
+			}
+		}
+		ySum = idealHeight;
+	} else {
+		// (2b) Distribute photos over rows using the aspect ratio as weight
+		var partitions = linear_partition(aspects100, rowsNeeded);
+		var index = 0;
+		var ySum = 0, xSum;
+		for (i = 0, n = partitions.length; i < n; i++) {
+			var element_index = index;
+			var summedRatios = 0;
+			for (j = 0, k = partitions[i].length; j < k; j++) {
+				summedRatios += aspects[element_index + j];
+				index++;
+			}
+
+			xSum = 0;
+			height = Math.round(containerWidth / summedRatios);
+			elementCount = partitions[i].length;
+			for (j = 0; j < elementCount; j++) {
+				width = Math.round((containerWidth - (elementCount - 1) * spacing) / summedRatios * aspects[element_index + j]);
+				positions.push({
+					y: ySum,
+					x: xSum,
+					width: width,
+					height: height
+				});
+				xSum += width;
+				if (j !== elementCount - 1) {
+					xSum += spacing;
+				}
+			}
+			ySum += height;
+			if (i !== n - 1) {
+				ySum += spacing;
+			}
+		}
+	}
+
+	return {
+		width: containerWidth,
+		height: ySum,
+		positions: positions
+	};
+};
+
+/**
+ * Partitions elements into rows.
+ *
+ * @author Johannes Treitz <https://twitter.com/jtreitz>
+ * @see https://www.crispymtn.com/stories/the-algorithm-for-a-perfectly-balanced-photo-gallery
+ * @param {int[]} seq
+ * @param {int} k
+ * @return {int[][]}
+ */
+var linear_partition = function(seq, k) {
+	var ans, i, j, m, n, solution, table, x, y, _i, _j, _k, _l;
+	var _m, _nn;
+
+	n = seq.length;
+	if (k <= 0) {
+		return [];
+	}
+	if (k > n) {
+		return seq.map(function(x) {
+			return [x];
+		});
+	}
+	table = (function() {
+		var _i, _results;
+		_results = [];
+		for (y = _i = 0; 0 <= n ? _i < n : _i > n; y = 0 <= n ? ++_i : --_i) {
+			_results.push((function() {
+				var _j, _results1;
+				_results1 = [];
+				for (x = _j = 0; 0 <= k ? _j < k : _j > k; x = 0 <= k ? ++_j : --_j) {
+					_results1.push(0);
+				}
+				return _results1;
+			})());
+		}
+		return _results;
+	})();
+	solution = (function() {
+		var _i, _ref, _results;
+		_results = [];
+		for (y = _i = 0, _ref = n - 1; 0 <= _ref ? _i < _ref : _i > _ref; y = 0 <= _ref ? ++_i : --_i) {
+			_results.push((function() {
+				var _j, _ref1, _results1;
+				_results1 = [];
+				for (x = _j = 0, _ref1 = k - 1; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; x = 0 <= _ref1 ? ++_j : --_j) {
+					_results1.push(0);
+				}
+				return _results1;
+			})());
+		}
+		return _results;
+	})();
+	for (i = _i = 0; 0 <= n ? _i < n : _i > n; i = 0 <= n ? ++_i : --_i) {
+		table[i][0] = seq[i] + (i ? table[i - 1][0] : 0);
+	}
+	for (j = _j = 0; 0 <= k ? _j < k : _j > k; j = 0 <= k ? ++_j : --_j) {
+		table[0][j] = seq[0];
+	}
+	for (i = _k = 1; 1 <= n ? _k < n : _k > n; i = 1 <= n ? ++_k : --_k) {
+		for (j = _l = 1; 1 <= k ? _l < k : _l > k; j = 1 <= k ? ++_l : --_l) {
+
+			m = [];
+			for (x = _m = 0; 0 <= i ? _m < i : _m > i; x = 0 <= i ? ++_m : --_m) {
+				m.push([Math.max(table[x][j - 1], table[i][0] - table[x][0]), x]);
+			}
+
+			var minValue, minIndex = false;
+			for (_m = 0, _nn = m.length; _m < _nn; _m++) {
+				if (_m === 0 || m[_m][0] < minValue) {
+					minValue = m[_m][0];
+					minIndex = _m;
+				}
+			}
+
+			m = m[minIndex];
+			table[i][j] = m[0];
+			solution[i - 1][j - 1] = m[1];
+		}
+	}
+	n = n - 1;
+	k = k - 2;
+	ans = [];
+	while (k >= 0) {
+		ans = [
+			(function() {
+				var _m, _ref, _ref1, _results;
+				_results = [];
+				for (i = _m = _ref = solution[n - 1][k] + 1, _ref1 = n + 1; _ref <= _ref1 ? _m < _ref1 : _m > _ref1; i = _ref <= _ref1 ? ++_m : --_m) {
+					_results.push(seq[i]);
+				}
+				return _results;
+			})()
+		].concat(ans);
+		n = solution[n - 1][k];
+		k = k - 1;
+	}
+	return [
+		(function() {
+			var _m, _ref, _results;
+			_results = [];
+			for (i = _m = 0, _ref = n + 1; 0 <= _ref ? _m < _ref : _m > _ref; i = 0 <= _ref ? ++_m : --_m) {
+				_results.push(seq[i]);
+			}
+			return _results;
+		})()
+	].concat(ans);
+};
+
+},{}],12:[function(require,module,exports){
 /*!
  * imagesLoaded v4.1.0
  * JavaScript is all like "You images are done yet or what?"
@@ -481,7 +1379,32 @@ return ImagesLoaded;
 
 });
 
-},{"ev-emitter":1}],3:[function(require,module,exports){
+},{"ev-emitter":1}],13:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],14:[function(require,module,exports){
 //  Ramda v0.21.0
 //  https://github.com/ramda/ramda
 //  (c) 2013-2016 Scott Sauyet, Michael Hurley, and David Chambers
@@ -9267,7 +10190,7 @@ return ImagesLoaded;
 
 }.call(this));
 
-},{}],4:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var VNode = require('./vnode');
 var is = require('./is');
 
@@ -9302,7 +10225,7 @@ module.exports = function h(sel, b, c) {
   return VNode(sel, data, children, text, undefined);
 };
 
-},{"./is":6,"./vnode":13}],5:[function(require,module,exports){
+},{"./is":17,"./vnode":24}],16:[function(require,module,exports){
 function createElement(tagName){
   return document.createElement(tagName);
 }
@@ -9358,13 +10281,13 @@ module.exports = {
   setTextContent: setTextContent
 };
 
-},{}],6:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = {
   array: Array.isArray,
   primitive: function(s) { return typeof s === 'string' || typeof s === 'number'; },
 };
 
-},{}],7:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "compact", "controls", "declare", 
                 "default", "defaultchecked", "defaultmuted", "defaultselected", "defer", "disabled", "draggable", 
                 "enabled", "formnovalidate", "hidden", "indeterminate", "inert", "ismap", "itemscope", "loop", "multiple", 
@@ -9405,7 +10328,7 @@ function updateAttrs(oldVnode, vnode) {
 
 module.exports = {create: updateAttrs, update: updateAttrs};
 
-},{}],8:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 function updateClass(oldVnode, vnode) {
   var cur, name, elm = vnode.elm,
       oldClass = oldVnode.data.class || {},
@@ -9425,7 +10348,7 @@ function updateClass(oldVnode, vnode) {
 
 module.exports = {create: updateClass, update: updateClass};
 
-},{}],9:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var is = require('../is');
 
 function arrInvoker(arr) {
@@ -9485,7 +10408,7 @@ function updateEventListeners(oldVnode, vnode) {
 
 module.exports = {create: updateEventListeners, update: updateEventListeners};
 
-},{"../is":6}],10:[function(require,module,exports){
+},{"../is":17}],21:[function(require,module,exports){
 function updateProps(oldVnode, vnode) {
   var key, cur, old, elm = vnode.elm,
       oldProps = oldVnode.data.props || {}, props = vnode.data.props || {};
@@ -9505,7 +10428,7 @@ function updateProps(oldVnode, vnode) {
 
 module.exports = {create: updateProps, update: updateProps};
 
-},{}],11:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
 var nextFrame = function(fn) { raf(function() { raf(fn); }); };
 
@@ -9571,7 +10494,7 @@ function applyRemoveStyle(vnode, rm) {
 
 module.exports = {create: updateStyle, update: updateStyle, destroy: applyDestroyStyle, remove: applyRemoveStyle};
 
-},{}],12:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 // jshint newcap: false
 /* global require, module, document, Node */
 'use strict';
@@ -9831,14 +10754,35 @@ function init(modules, api) {
 
 module.exports = {init: init};
 
-},{"./htmldomapi":5,"./is":6,"./vnode":13}],13:[function(require,module,exports){
+},{"./htmldomapi":16,"./is":17,"./vnode":24}],24:[function(require,module,exports){
 module.exports = function(sel, data, children, text, elm) {
   var key = data === undefined ? undefined : data.key;
   return {sel: sel, data: data, children: children,
           text: text, elm: elm, key: key};
 };
 
-},{}],14:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var _h = require('snabbdom/h');
@@ -9863,7 +10807,7 @@ module.exports = function (_) {
   return (0, _h2.default)('section.pl1', (0, _id2.default)('about'), body());
 };
 
-},{"./id":17,"./link":20,"snabbdom/h":4}],15:[function(require,module,exports){
+},{"./id":29,"./link":32,"snabbdom/h":15}],27:[function(require,module,exports){
 'use strict';
 
 var _h = require('snabbdom/h');
@@ -9910,7 +10854,7 @@ module.exports = function (_) {
   return (0, _h2.default)('section.p1', (0, _id2.default)('code'), body());
 };
 
-},{"./id":17,"./link":20,"snabbdom/h":4}],16:[function(require,module,exports){
+},{"./id":29,"./link":32,"snabbdom/h":15}],28:[function(require,module,exports){
 'use strict';
 
 var _link = require('./link');
@@ -9927,25 +10871,25 @@ module.exports = function (_) {
   return (0, _h2.default)('header.p1.mt1.mb2', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
 };
 
-},{"./link":20,"snabbdom/h":4}],17:[function(require,module,exports){
+},{"./link":32,"snabbdom/h":15}],29:[function(require,module,exports){
 "use strict";
 
 module.exports = function (id) {
   return { props: { id: id } };
 };
 
-},{}],18:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var images = {};
 
 images.korematsu = [{ src: 'korematsu/ch-1-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-2-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-3-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-4-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-5-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-6-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-7-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-8-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-9-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-10-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-11-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-12-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }];
 
-images.illo = [{ src: 'illo/arnie_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/demai_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }];
+images.illo = [{ src: 'illo/arnie_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/demai_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }];
 
 module.exports = images;
 
-},{}],19:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var _ramda = require('ramda');
@@ -9963,6 +10907,10 @@ var _h2 = _interopRequireDefault(_h);
 var _imagesloaded = require('imagesloaded');
 
 var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
+
+var _imageGallery = require('image-gallery');
+
+var _imageGallery2 = _interopRequireDefault(_imageGallery);
 
 var _images = require('./images');
 
@@ -9990,8 +10938,8 @@ var _id2 = _interopRequireDefault(_id);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// npm
-var vnode = void 0;
+var vnode = void 0; // npm
+
 var data = { modalData: {} };
 
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
@@ -10003,27 +10951,18 @@ var view = function view(data) {
 };
 
 var main = function main(_) {
-  return (0, _h2.default)('main.pr1', [illustration(), (0, _code2.default)(), (0, _about2.default)()]);
+  return (0, _h2.default)('main', [illustration(), (0, _code2.default)(), (0, _about2.default)()]);
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.pr1.clearFix', korematsu()), (0, _h2.default)('div', _ramda2.default.map(function (x) {
+  return (0, _h2.default)('section.mt3.mr1', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.clearFix', korematsu()), (0, _h2.default)('div.bricks.m1', {
+    hook: { insert: brickIt } }, _ramda2.default.map(function (x) {
     return img(x);
   }, _images2.default.illo))]);
 };
 
-var korematsu = function korematsu(_) {
-  return _ramda2.default.map(function (x) {
-    return imageBox(x, '.col-4.left');
-  }, _images2.default.korematsu);
-};
-
-var imageBox = function imageBox(imageObj, className) {
-  return (0, _h2.default)('div.pb1.pl1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative', [img(imageObj), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title)])]);
-};
-
-var img = function img(o) {
-  return (0, _h2.default)('img.pointer.o0.transO', {
+var img = function img(o, className) {
+  return (0, _h2.default)('img.pointer.o0.inline-block' + (className ? className : ''), {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     on: { click: openModal },
     hook: { insert: fadeIn }
@@ -10034,6 +10973,20 @@ var fadeIn = function fadeIn(x) {
   (0, _imagesloaded2.default)(x.elm, function (i) {
     i.images[0].img.style.opacity = '1';
   });
+};
+
+var brickIt = function brickIt(x) {
+  return (0, _imageGallery2.default)('.bricks', { use: [_imageGallery2.default.Responsive] });
+};
+
+var korematsu = function korematsu(_) {
+  return _ramda2.default.map(function (x) {
+    return imageBox(x, '.col-4.left');
+  }, _images2.default.korematsu);
+};
+
+var imageBox = function imageBox(imageObj, className) {
+  return (0, _h2.default)('div.pb1.pl1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative', [img(imageObj), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title)])]);
 };
 
 var imageModal = function imageModal(modalData) {
@@ -10065,7 +11018,7 @@ window.addEventListener('DOMContentLoaded', function () {
   render();
 });
 
-},{"./about":14,"./code":15,"./header":16,"./id":17,"./images":18,"./link":20,"imagesloaded":2,"ramda":3,"snabbdom":12,"snabbdom/h":4,"snabbdom/modules/attributes":7,"snabbdom/modules/class":8,"snabbdom/modules/eventlisteners":9,"snabbdom/modules/props":10,"snabbdom/modules/style":11}],20:[function(require,module,exports){
+},{"./about":26,"./code":27,"./header":28,"./id":29,"./images":30,"./link":32,"image-gallery":3,"imagesloaded":12,"ramda":14,"snabbdom":23,"snabbdom/h":15,"snabbdom/modules/attributes":18,"snabbdom/modules/class":19,"snabbdom/modules/eventlisteners":20,"snabbdom/modules/props":21,"snabbdom/modules/style":22}],32:[function(require,module,exports){
 'use strict';
 
 var _h = require('snabbdom/h');
@@ -10079,4 +11032,4 @@ module.exports = function (cssClass, href, text, targetBlank) {
   return (0, _h2.default)('a' + (cssClass || ''), { props: props }, text);
 };
 
-},{"snabbdom/h":4}]},{},[19]);
+},{"snabbdom/h":15}]},{},[31]);

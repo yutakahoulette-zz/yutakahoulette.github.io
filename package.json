@@ -14,6 +14,7 @@
   "author": "Yutaka Houlette",
   "license": "MIT",
   "dependencies": {
+    "image-gallery": "^0.3.1",
     "imagesloaded": "^4.1.0",
     "ramda": "0.21.0",
     "snabbdom": "0.5.0"
@@ -23,7 +24,6 @@
     "babel-preset-es2015": "6.9.0",
     "babelify": "7.3.0",
     "basscss": "8.0.1",
-    "bricks-layout": "1.0.1",
     "browserify": "13.0.1",
     "cssnano": "3.7.1",
     "gulp": "3.9.1",

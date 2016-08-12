@@ -1,6 +1,6 @@
 @import '../node_modules/normalize.css/normalize.css';
 @import '../node_modules/basscss/css/basscss.css';
-@import '../node_modules/bricks-layout/build/css/bricks.css';
+@import '../node_modules/image-gallery/dist/image-gallery.css';
 @import 'fonts';
 
 * {
