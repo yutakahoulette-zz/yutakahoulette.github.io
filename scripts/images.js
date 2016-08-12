@@ -15,5 +15,12 @@ images.korematsu = [
 , {src: 'korematsu/ch-12-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
 ]
 
+images.illo = [
+ {src: 'illo/arnie_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
+, {src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
+, {src: 'illo/demai_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
+, {src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
+]
+
 module.exports = images
 

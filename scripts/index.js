@@ -1,6 +1,9 @@
+// npm
 import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
+import loaded from 'imagesloaded'
+
 import images from './images'
 import header from './header'
 import code from './code'
@@ -41,24 +44,33 @@ const illustration = _ =>
   , [
       h('h3.italic.px1', 'Illustration') 
     , h('div.pr1.clearFix', korematsu())
+    , h('div', R.map(x => img(x), images.illo))
     ]
   )
 
-
 const korematsu = _ => 
-  R.map(x => imageBox(x, true, '.col-4.left'), images.korematsu) 
+  R.map(x => imageBox(x, '.col-4.left'), images.korematsu) 
 
-const imageBox = (imageObj, expand, className) =>
+const imageBox = (imageObj, className) =>
   h(`div.pb1.pl1${className ? className : ''}`, [
     h('figure.m0.relative', [
-      h('img', { 
-        props: {src: `images/${imageObj.src}.jpg`, alt: imageObj.title}
-      , class: {pointer: expand}
-      , on: {click: openModal}
-      })
+      img(imageObj)
     , h('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title) 
     ])
   ])
+
+const img = o =>
+  h('img.pointer.o0.transO', { 
+    props: {src: `images/${o.src}.jpg`, alt: o.title}
+  , on: {click: openModal}
+  , hook: {insert: fadeIn}
+  })
+
+const fadeIn = x => {
+  loaded(x.elm, i => {
+    i.images[0].img.style.opacity = '1'
+  })
+}
 
 const imageModal = (modalData) => 
   h('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO'

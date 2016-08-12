@@ -1,5 +1,6 @@
 @import '../node_modules/normalize.css/normalize.css';
 @import '../node_modules/basscss/css/basscss.css';
+@import '../node_modules/bricks-layout/build/css/bricks.css';
 @import 'fonts';
 
 * {
@@ -131,7 +132,6 @@ figure:hover figcaption {
 
 .transO {
   transition: opacity ease-out 0.2s;
-  transform: translatez(0);
 }
 
 img {
