@@ -41,22 +41,15 @@ const main = _ =>
   )
 
 const illustration = _ =>
-  h('section.mt3.mr1', id('illustration')
+  h('section.mt3', id('illustration')
   , [
       h('h3.italic.px1', 'Illustration') 
-    , h('div.clearFix', korematsu())
-    , h('div.bricks.m1', {
+    // , h('div.clearFix', korematsu())
+    , h('div.bricks.ml1', {
         hook: {insert: brickIt}}
-      , R.map(x => img(x), images.illo))
+      , R.map(x => imgBox(x), images.illo))
     ]
   )
-
-const img = (o, className) =>
-  h(`img.pointer.o0.inline-block${className ? className : ''}`, { 
-    props: {src: `images/${o.src}.jpg`, alt: o.title}
-  , on: {click: openModal}
-  , hook: {insert: fadeIn}
-  })
 
 const fadeIn = x => {
   loaded(x.elm, i => {
@@ -69,11 +62,15 @@ const brickIt = x => bricks('.bricks', { use: [ bricks.Responsive ]})
 const korematsu = _ => 
   R.map(x => imageBox(x, '.col-4.left'), images.korematsu) 
 
-const imageBox = (imageObj, className) =>
-  h(`div.pb1.pl1${className ? className : ''}`, [
-    h('figure.m0.relative', [
-      img(imageObj)
-    , h('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title) 
+const imgBox = (o, className) =>
+  h(`div.inline-block.mb1${className ? className : ''}`, [
+    h('figure.m0.relative.inline-block', [
+    h('img.pointer.o0.transO.pr1', { 
+      props: {src: `images/${o.src}.jpg`, alt: o.title}
+    , on: {click: openModal}
+    , hook: {insert: fadeIn}
+    })
+    , h('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.scrim.o0.transO', o.title) 
     ])
   ])
 

@@ -10955,18 +10955,12 @@ var main = function main(_) {
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.mt3.mr1', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.clearFix', korematsu()), (0, _h2.default)('div.bricks.m1', {
+  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration')
+  // , h('div.clearFix', korematsu())
+  , (0, _h2.default)('div.bricks.ml1', {
     hook: { insert: brickIt } }, _ramda2.default.map(function (x) {
-    return img(x);
+    return imgBox(x);
   }, _images2.default.illo))]);
-};
-
-var img = function img(o, className) {
-  return (0, _h2.default)('img.pointer.o0.inline-block' + (className ? className : ''), {
-    props: { src: 'images/' + o.src + '.jpg', alt: o.title },
-    on: { click: openModal },
-    hook: { insert: fadeIn }
-  });
 };
 
 var fadeIn = function fadeIn(x) {
@@ -10985,8 +10979,12 @@ var korematsu = function korematsu(_) {
   }, _images2.default.korematsu);
 };
 
-var imageBox = function imageBox(imageObj, className) {
-  return (0, _h2.default)('div.pb1.pl1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative', [img(imageObj), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.fullWidth.scrim.o0.transO', imageObj.title)])]);
+var imgBox = function imgBox(o, className) {
+  return (0, _h2.default)('div.inline-block.mb1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative.inline-block', [(0, _h2.default)('img.pointer.o0.transO.pr1', {
+    props: { src: 'images/' + o.src + '.jpg', alt: o.title },
+    on: { click: openModal },
+    hook: { insert: fadeIn }
+  }), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.scrim.o0.transO', o.title)])]);
 };
 
 var imageModal = function imageModal(modalData) {

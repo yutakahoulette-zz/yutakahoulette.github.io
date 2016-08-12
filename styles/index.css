@@ -61,6 +61,20 @@ body {
   margin-top: 19px;
 }
 
+.imageBox {
+  position: relative;
+
+}
+
+.imageBox:after {
+
+
+}
+
+figcaption {
+  right: .5em;
+}
+
 .readable {
   line-height: 1.5;
   max-width: 700px;
