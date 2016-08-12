@@ -9399,7 +9399,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var body = function body(_) {
   return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'Code'), article({ left: true, title: 'Kumiki', p: 'asdf',
-    img: { src: 'images/code/kumiki.gif', alt: 'asdf' } })];
+    img: { src: 'images/code/kumiki.gif', alt: 'asdf' } }), article({ left: false, title: 'Should I?', p: 'asdf',
+    img: { src: 'images/code/should_i.gif', alt: 'asdf' } }), article({ left: true, title: 'Scapeland', p: 'asdf',
+    img: { src: 'images/code/scapeland.gif', alt: 'asdf' } }), article({ left: false, title: 'Gestalt Weather', p: 'asdf',
+    img: { src: 'images/code/gestalt.png', alt: 'asdf' } })];
 };
 
 var article = function article(o) {
@@ -9413,7 +9416,7 @@ var article = function article(o) {
   var img = browserImg(o.img);
   var txt = (0, _h2.default)('figcation.table-cell.align-middle.col-5' + padding(!o.left) + textAlign(!o.left), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
   var content = [o.left ? img : txt, o.left ? txt : img];
-  return (0, _h2.default)('article.table.fullWidth', content);
+  return (0, _h2.default)('article.table.fullWidth.mb3', content);
 };
 
 var browserImg = function browserImg(o) {

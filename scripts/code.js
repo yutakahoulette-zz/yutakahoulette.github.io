@@ -8,6 +8,12 @@ let body = _ =>
   , h('h3.mb1.italic', 'Code')
   , article({left: true, title: 'Kumiki', p: 'asdf'
     , img: {src: 'images/code/kumiki.gif', alt: 'asdf'}})
+  , article({left: false, title: 'Should I?', p: 'asdf'
+    , img: {src: 'images/code/should_i.gif', alt: 'asdf'}})
+  , article({left: true, title: 'Scapeland', p: 'asdf'
+    , img: {src: 'images/code/scapeland.gif', alt: 'asdf'}})
+  , article({left: false, title: 'Gestalt Weather', p: 'asdf'
+    , img: {src: 'images/code/gestalt.png', alt: 'asdf'}})
   ]
 
 
@@ -21,7 +27,7 @@ const article = o => {
   , h('p', [o.p]) 
   ])
   let content = [o.left ? img : txt, o.left ? txt : img]
-  return h('article.table.fullWidth', content) 
+  return h('article.table.fullWidth.mb3', content) 
 }
 
 
