@@ -10807,7 +10807,20 @@ module.exports = function (_) {
   return (0, _h2.default)('section.pl1', (0, _id2.default)('about'), body());
 };
 
-},{"./id":29,"./link":32,"snabbdom/h":15}],27:[function(require,module,exports){
+},{"./id":31,"./link":34,"snabbdom/h":15}],27:[function(require,module,exports){
+'use strict';
+
+var _imageGallery = require('image-gallery');
+
+var _imageGallery2 = _interopRequireDefault(_imageGallery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function (x) {
+  return (0, _imageGallery2.default)(x.elm, { use: [_imageGallery2.default.Responsive] });
+};
+
+},{"image-gallery":3}],28:[function(require,module,exports){
 'use strict';
 
 var _h = require('snabbdom/h');
@@ -10817,6 +10830,10 @@ var _h2 = _interopRequireDefault(_h);
 var _link = require('./link');
 
 var _link2 = _interopRequireDefault(_link);
+
+var _fadeIn = require('./fade-in');
+
+var _fadeIn2 = _interopRequireDefault(_fadeIn);
 
 var _id = require('./id');
 
@@ -10847,14 +10864,29 @@ var article = function article(o) {
 };
 
 var browserImg = function browserImg(o) {
-  return (0, _h2.default)('figure.m0.relative.browserImage.col-7.table-cell', [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o })]);
+  return (0, _h2.default)('figure.m0.o0.transO--slow.relative.browserImage.col-7.table-cell', [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o, hook: { insert: _fadeIn2.default } })]);
 };
 
 module.exports = function (_) {
   return (0, _h2.default)('section.p1', (0, _id2.default)('code'), body());
 };
 
-},{"./id":29,"./link":32,"snabbdom/h":15}],28:[function(require,module,exports){
+},{"./fade-in":29,"./id":31,"./link":34,"snabbdom/h":15}],29:[function(require,module,exports){
+'use strict';
+
+var _imagesloaded = require('imagesloaded');
+
+var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function (x) {
+  (0, _imagesloaded2.default)(x.elm, function (i) {
+    i.images[0].img.parentElement.style.opacity = '1';
+  });
+};
+
+},{"imagesloaded":12}],30:[function(require,module,exports){
 'use strict';
 
 var _link = require('./link');
@@ -10871,14 +10903,14 @@ module.exports = function (_) {
   return (0, _h2.default)('header.p1.mt1.mb2', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
 };
 
-},{"./link":32,"snabbdom/h":15}],29:[function(require,module,exports){
+},{"./link":34,"snabbdom/h":15}],31:[function(require,module,exports){
 "use strict";
 
 module.exports = function (id) {
   return { props: { id: id } };
 };
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var images = {};
@@ -10889,7 +10921,7 @@ images.illo = [{ src: 'illo/arnie_web', title: 'Fred Korematsu Speaks Up - Chapt
 
 module.exports = images;
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var _ramda = require('ramda');
@@ -10903,10 +10935,6 @@ var _snabbdom2 = _interopRequireDefault(_snabbdom);
 var _h = require('snabbdom/h');
 
 var _h2 = _interopRequireDefault(_h);
-
-var _imagesloaded = require('imagesloaded');
-
-var _imagesloaded2 = _interopRequireDefault(_imagesloaded);
 
 var _imageGallery = require('image-gallery');
 
@@ -10928,6 +10956,14 @@ var _about = require('./about');
 
 var _about2 = _interopRequireDefault(_about);
 
+var _fadeIn = require('./fade-in');
+
+var _fadeIn2 = _interopRequireDefault(_fadeIn);
+
+var _brickIt = require('./brick-it');
+
+var _brickIt2 = _interopRequireDefault(_brickIt);
+
 var _link = require('./link');
 
 var _link2 = _interopRequireDefault(_link);
@@ -10938,8 +10974,9 @@ var _id2 = _interopRequireDefault(_id);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var vnode = void 0; // npm
-
+// local
+// npm
+var vnode = void 0;
 var data = { modalData: {} };
 
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
@@ -10955,35 +10992,19 @@ var main = function main(_) {
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration')
-  // , h('div.clearFix', korematsu())
-  , (0, _h2.default)('div.bricks.ml1', {
-    hook: { insert: brickIt } }, _ramda2.default.map(function (x) {
+  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.clearFix.ml1', _ramda2.default.map(function (x) {
+    return imgBox(x, '.col-4.left');
+  }, _images2.default.korematsu)), (0, _h2.default)('div.ml1', {
+    hook: { insert: _brickIt2.default } }, _ramda2.default.map(function (x) {
     return imgBox(x);
   }, _images2.default.illo))]);
 };
 
-var fadeIn = function fadeIn(x) {
-  (0, _imagesloaded2.default)(x.elm, function (i) {
-    i.images[0].img.style.opacity = '1';
-  });
-};
-
-var brickIt = function brickIt(x) {
-  return (0, _imageGallery2.default)('.bricks', { use: [_imageGallery2.default.Responsive] });
-};
-
-var korematsu = function korematsu(_) {
-  return _ramda2.default.map(function (x) {
-    return imageBox(x, '.col-4.left');
-  }, _images2.default.korematsu);
-};
-
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block.mb1' + (className ? className : ''), [(0, _h2.default)('figure.m0.relative.inline-block', [(0, _h2.default)('img.pointer.o0.transO.pr1', {
+  return (0, _h2.default)('div.inline-block.mb1' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative.inline-block', [(0, _h2.default)('img.pointer.pr1', {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     on: { click: openModal },
-    hook: { insert: fadeIn }
+    hook: { insert: _fadeIn2.default }
   }), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.scrim.o0.transO', o.title)])]);
 };
 
@@ -11016,7 +11037,7 @@ window.addEventListener('DOMContentLoaded', function () {
   render();
 });
 
-},{"./about":26,"./code":27,"./header":28,"./id":29,"./images":30,"./link":32,"image-gallery":3,"imagesloaded":12,"ramda":14,"snabbdom":23,"snabbdom/h":15,"snabbdom/modules/attributes":18,"snabbdom/modules/class":19,"snabbdom/modules/eventlisteners":20,"snabbdom/modules/props":21,"snabbdom/modules/style":22}],32:[function(require,module,exports){
+},{"./about":26,"./brick-it":27,"./code":28,"./fade-in":29,"./header":30,"./id":31,"./images":32,"./link":34,"image-gallery":3,"ramda":14,"snabbdom":23,"snabbdom/h":15,"snabbdom/modules/attributes":18,"snabbdom/modules/class":19,"snabbdom/modules/eventlisteners":20,"snabbdom/modules/props":21,"snabbdom/modules/style":22}],34:[function(require,module,exports){
 'use strict';
 
 var _h = require('snabbdom/h');
@@ -11030,4 +11051,4 @@ module.exports = function (cssClass, href, text, targetBlank) {
   return (0, _h2.default)('a' + (cssClass || ''), { props: props }, text);
 };
 
-},{"snabbdom/h":15}]},{},[31]);
+},{"snabbdom/h":15}]},{},[33]);

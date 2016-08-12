@@ -2,13 +2,15 @@
 import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
-import loaded from 'imagesloaded'
 import bricks from 'image-gallery'
 
+// local
 import images from './images'
 import header from './header'
 import code from './code'
 import about from './about'
+import fadeIn from './fade-in'
+import brickIt from './brick-it'
 import link from './link'
 import id from './id'
 
@@ -42,30 +44,19 @@ const main = _ =>
 
 const illustration = _ =>
   h('section.mt3', id('illustration')
-  , [
-      h('h3.italic.px1', 'Illustration') 
-    // , h('div.clearFix', korematsu())
-    , h('div.bricks.ml1', {
+  , [ h('h3.italic.px1', 'Illustration') 
+    , h('div.clearFix.ml1', R.map(x => imgBox(x, '.col-4.left'), images.korematsu))
+    , h('div.ml1', {
         hook: {insert: brickIt}}
       , R.map(x => imgBox(x), images.illo))
     ]
   )
 
-const fadeIn = x => {
-  loaded(x.elm, i => {
-    i.images[0].img.style.opacity = '1'
-  })
-}
-
-const brickIt = x => bricks('.bricks', { use: [ bricks.Responsive ]}) 
-
-const korematsu = _ => 
-  R.map(x => imageBox(x, '.col-4.left'), images.korematsu) 
 
 const imgBox = (o, className) =>
   h(`div.inline-block.mb1${className ? className : ''}`, [
-    h('figure.m0.relative.inline-block', [
-    h('img.pointer.o0.transO.pr1', { 
+    h('figure.m0.o0.transO--slow.relative.inline-block', [
+    h('img.pointer.pr1', { 
       props: {src: `images/${o.src}.jpg`, alt: o.title}
     , on: {click: openModal}
     , hook: {insert: fadeIn}

@@ -1,5 +1,7 @@
 import h from 'snabbdom/h'
+
 import link from './link'
+import fadeIn from './fade-in'
 import id from './id'
 
 let body = _ =>
@@ -32,13 +34,13 @@ const article = o => {
 
 
 const browserImg = o => 
-  h('figure.m0.relative.browserImage.col-7.table-cell', [
+  h('figure.m0.o0.transO--slow.relative.browserImage.col-7.table-cell', [
     h('div.absolute.top-0.left-0.fullWidth', [
         h('i.circle.absolute')
       , h('i.circle.absolute')
       , h('i.circle.absolute')
     ])
-  , h('img', {props: o})
+  , h('img', {props: o, hook: {insert: fadeIn}})
   ])
 
 

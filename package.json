@@ -14,8 +14,8 @@
   "author": "Yutaka Houlette",
   "license": "MIT",
   "dependencies": {
-    "image-gallery": "^0.3.1",
-    "imagesloaded": "^4.1.0",
+    "image-gallery": "0.3.1",
+    "imagesloaded": "4.1.0",
     "ramda": "0.21.0",
     "snabbdom": "0.5.0"
   },
