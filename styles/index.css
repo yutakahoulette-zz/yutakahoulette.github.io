@@ -63,18 +63,18 @@ body {
   margin-top: 19px;
 }
 
-.imageBox {
-  position: relative;
 
+.p1 {
+  padding: 10px;
 }
-
-.imageBox:after {
-
-
+.p2 {
+  padding: 15px;
 }
-
-figcaption {
-  right: .5em;
+.p3 {
+  padding: 20px;
+}
+.p05 {
+  padding: 5px;
 }
 
 .readable {
@@ -106,6 +106,10 @@ header:hover .slideShow {
 
 .fullWidth {
   width: 100%;
+}
+
+.fullMaxHeight {
+  max-height: 100%;
 }
 
 .verticallyCenter {
@@ -140,6 +144,9 @@ hr {
 
 figcaption {
   color: white;
+  right: 5px;
+  left: 5px;
+  bottom: 5px;
 }
 
 figure:hover figcaption {
@@ -156,7 +163,6 @@ figure:hover figcaption {
 
 img {
   max-width: 100%;
-  max-height: 100%;
 }
 
 

@@ -43,25 +43,24 @@ const main = _ =>
   )
 
 const illustration = _ =>
-  h('section.mt3', id('illustration')
-  , [ h('h3.italic.px1', 'Illustration') 
-    , h('div.clearFix.ml1', R.map(x => imgBox(x, '.col-4.left'), images.korematsu))
-    , h('div.ml1', {
+  h('section.p05', id('illustration')
+  , [ h('h3.italic.p05', 'Illustration') 
+    , h('div.clearFix', R.map(x => imgBox(x, '.col-4.left'), images.korematsu))
+    , h('div', {
         hook: {insert: brickIt}}
       , R.map(x => imgBox(x), images.illo))
     ]
   )
 
-
 const imgBox = (o, className) =>
-  h(`div.inline-block.mb1${className ? className : ''}`, [
-    h('figure.m0.o0.transO--slow.relative.inline-block', [
-    h('img.pointer.pr1', { 
+  h(`div.inline-block${className ? className : ''}`, [
+    h('figure.m0.o0.transO--slow.relative', [
+    h('img.p05.pointer', { 
       props: {src: `images/${o.src}.jpg`, alt: o.title}
     , on: {click: openModal}
     , hook: {insert: fadeIn}
     })
-    , h('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.scrim.o0.transO', o.title) 
+    , h('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title) 
     ])
   ])
 
@@ -72,7 +71,7 @@ const imageModal = (modalData) =>
     , on: {click: closeModal}
     }
   , [ h('div.fullWidth.fullHeight.center.p2'
-      , [h('img.dropShadow.verticallyCenter', {props: {src: modalData.src, alt: modalData.alt}})]
+      , [h('img.dropShadow.verticallyCenter.fullMaxHeight', {props: {src: modalData.src, alt: modalData.alt}})]
       )
     ]
   )

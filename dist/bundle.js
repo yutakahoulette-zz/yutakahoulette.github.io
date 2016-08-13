@@ -10900,7 +10900,7 @@ var _h2 = _interopRequireDefault(_h);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function (_) {
-  return (0, _h2.default)('header.p1.mt1.mb2', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
+  return (0, _h2.default)('header.p1.mt1.mb1', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
 };
 
 },{"./link":34,"snabbdom/h":15}],31:[function(require,module,exports){
@@ -10992,26 +10992,26 @@ var main = function main(_) {
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.clearFix.ml1', _ramda2.default.map(function (x) {
+  return (0, _h2.default)('section.p05', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.p05', 'Illustration'), (0, _h2.default)('div.clearFix', _ramda2.default.map(function (x) {
     return imgBox(x, '.col-4.left');
-  }, _images2.default.korematsu)), (0, _h2.default)('div.ml1', {
+  }, _images2.default.korematsu)), (0, _h2.default)('div', {
     hook: { insert: _brickIt2.default } }, _ramda2.default.map(function (x) {
     return imgBox(x);
   }, _images2.default.illo))]);
 };
 
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block.mb1' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative.inline-block', [(0, _h2.default)('img.pointer.pr1', {
+  return (0, _h2.default)('div.inline-block' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05.pointer', {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     on: { click: openModal },
     hook: { insert: _fadeIn2.default }
-  }), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.scrim.o0.transO', o.title)])]);
+  }), (0, _h2.default)('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title)])]);
 };
 
 var imageModal = function imageModal(modalData) {
   return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', { style: { delayed: { opacity: '1' }, remove: { opacity: '0' } },
     on: { click: closeModal }
-  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.dropShadow.verticallyCenter', { props: { src: modalData.src, alt: modalData.alt } })])]);
+  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.dropShadow.verticallyCenter.fullMaxHeight', { props: { src: modalData.src, alt: modalData.alt } })])]);
 };
 
 var openModal = function openModal(e) {
