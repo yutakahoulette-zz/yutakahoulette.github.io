@@ -17,6 +17,7 @@ import id from './id'
 let vnode
 let data = {modalData: {}}
 
+
 const patch = snabbdom.init([
   require('snabbdom/modules/class')
 , require('snabbdom/modules/props')
@@ -24,6 +25,8 @@ const patch = snabbdom.init([
 , require('snabbdom/modules/eventlisteners')
 , require('snabbdom/modules/attributes')
 ])
+
+let isNarrow = window.innerWidth < 500
 
 const view = data => {
   let content = [header(), main()]
@@ -44,10 +47,9 @@ const main = _ =>
 
 const illustration = _ =>
   h('section.p05', id('illustration')
-  , [ h('h3.italic.p05', 'Illustration') 
-    , h('div.clearFix', R.map(x => imgBox(x, '.col-4.left'), images.korematsu))
+  , [ h('div.clearFix', R.map(x => imgBox(x, '.col-4.left'), images.korematsu))
     , h('div', {
-        hook: {insert: brickIt}}
+        hook: {insert: isNarrow ? _ => '' : brickIt}}
       , R.map(x => imgBox(x), images.illo))
     ]
   )
@@ -55,7 +57,7 @@ const illustration = _ =>
 const imgBox = (o, className) =>
   h(`div.inline-block${className ? className : ''}`, [
     h('figure.m0.o0.transO--slow.relative', [
-    h('img.p05.pointer', { 
+    h(`img.p05${!isNarrow ? '.pointer' : ''}`, { 
       props: {src: `images/${o.src}.jpg`, alt: o.title}
     , on: {click: openModal}
     , hook: {insert: fadeIn}
@@ -77,6 +79,7 @@ const imageModal = (modalData) =>
   )
 
 const openModal = e => {
+  if(isNarrow) return
   let image = e.target
   data.modalData.src = image.getAttribute('src')
   data.modalData.alt = image.getAttribute('alt')

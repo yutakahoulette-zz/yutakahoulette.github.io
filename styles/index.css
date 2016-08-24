@@ -166,4 +166,22 @@ img {
 }
 
 
+@media screen and (max-width: 700px) {
+  .col-4 {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .col-7,
+  .col-5 {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .col-4 {
+    width: 100%;
+  }
+}
 

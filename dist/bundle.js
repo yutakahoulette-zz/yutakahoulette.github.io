@@ -10842,29 +10842,33 @@ var _id2 = _interopRequireDefault(_id);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var body = function body(_) {
-  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'Code'), article({ left: true, title: 'Kumiki', p: 'asdf',
+  return [(0, _h2.default)('hr'), article({ left: true, title: 'Kumiki', p: 'asdf',
     img: { src: 'images/code/kumiki.gif', alt: 'asdf' } }), article({ left: false, title: 'Should I?', p: 'asdf',
     img: { src: 'images/code/should_i.gif', alt: 'asdf' } }), article({ left: true, title: 'Scapeland', p: 'asdf',
     img: { src: 'images/code/scapeland.gif', alt: 'asdf' } }), article({ left: false, title: 'Gestalt Weather', p: 'asdf',
     img: { src: 'images/code/gestalt.png', alt: 'asdf' } })];
 };
 
+var padding = function padding(left) {
+  return left ? '.pr2' : '.pl2';
+};
+var float = function float(left) {
+  return left ? '.left' : '.right';
+};
+var align = function align(left) {
+  return left ? '.right-align' : '';
+};
+
 var article = function article(o) {
-  var padding = function padding(left) {
-    return left ? '.pr2' : '.pl2';
-  };
-  var textAlign = function textAlign(left) {
-    return left ? '.right-align' : '';
-  };
 
   var img = browserImg(o.img);
-  var txt = (0, _h2.default)('figcation.table-cell.align-middle.col-5' + padding(!o.left) + textAlign(!o.left), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
-  var content = [o.left ? img : txt, o.left ? txt : img];
-  return (0, _h2.default)('article.table.fullWidth.mb3', content);
+  var txt = (0, _h2.default)('figcation.col-5' + (padding(!o.left) + float(!o.left) + align(!o.left)), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
+  var content = [txt, img];
+  return (0, _h2.default)('article.clearfix.mb3', content);
 };
 
 var browserImg = function browserImg(o) {
-  return (0, _h2.default)('figure.m0.o0.transO--slow.relative.browserImage.col-7.table-cell', [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o, hook: { insert: _fadeIn2.default } })]);
+  return (0, _h2.default)('figure.m0.o0.transO--slow.relative.browserImage.col-7' + float(o.left), [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o, hook: { insert: _fadeIn2.default } })]);
 };
 
 module.exports = function (_) {
@@ -10981,6 +10985,8 @@ var data = { modalData: {} };
 
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
 
+var isNarrow = window.innerWidth < 500;
+
 var view = function view(data) {
   var content = [(0, _header2.default)(), main()];
   content = data.modalData.src ? _ramda2.default.concat(content, imageModal(data.modalData)) : content;
@@ -10992,16 +10998,18 @@ var main = function main(_) {
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.p05', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.p05', 'Illustration'), (0, _h2.default)('div.clearFix', _ramda2.default.map(function (x) {
+  return (0, _h2.default)('section.p05', (0, _id2.default)('illustration'), [(0, _h2.default)('div.clearFix', _ramda2.default.map(function (x) {
     return imgBox(x, '.col-4.left');
   }, _images2.default.korematsu)), (0, _h2.default)('div', {
-    hook: { insert: _brickIt2.default } }, _ramda2.default.map(function (x) {
+    hook: { insert: isNarrow ? function (_) {
+        return '';
+      } : _brickIt2.default } }, _ramda2.default.map(function (x) {
     return imgBox(x);
   }, _images2.default.illo))]);
 };
 
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05.pointer', {
+  return (0, _h2.default)('div.inline-block' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     on: { click: openModal },
     hook: { insert: _fadeIn2.default }
@@ -11015,6 +11023,7 @@ var imageModal = function imageModal(modalData) {
 };
 
 var openModal = function openModal(e) {
+  if (isNarrow) return;
   var image = e.target;
   data.modalData.src = image.getAttribute('src');
   data.modalData.alt = image.getAttribute('alt');
