@@ -10,7 +10,7 @@ gulp.task('css', function () {
   var processors = [
     precss({})
   , importCss()
-  , autoprefixer({browsers: ['last 1 version']})
+  , autoprefixer({browsers: ['last 3 versions']})
   , cssnano()
   ]
   return gulp.src('styles/index.css')

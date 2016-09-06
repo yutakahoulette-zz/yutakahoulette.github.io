@@ -10842,29 +10842,33 @@ var _id2 = _interopRequireDefault(_id);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var body = function body(_) {
-  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'Code'), article({ left: true, title: 'Kumiki', p: 'asdf',
+  return [(0, _h2.default)('hr'), article({ left: true, title: 'Kumiki', p: 'asdf',
     img: { src: 'images/code/kumiki.gif', alt: 'asdf' } }), article({ left: false, title: 'Should I?', p: 'asdf',
     img: { src: 'images/code/should_i.gif', alt: 'asdf' } }), article({ left: true, title: 'Scapeland', p: 'asdf',
     img: { src: 'images/code/scapeland.gif', alt: 'asdf' } }), article({ left: false, title: 'Gestalt Weather', p: 'asdf',
     img: { src: 'images/code/gestalt.png', alt: 'asdf' } })];
 };
 
+var padding = function padding(left) {
+  return left ? '.pr2' : '.pl2';
+};
+var float = function float(left) {
+  return left ? '.left' : '.right';
+};
+var align = function align(left) {
+  return left ? '.right-align' : '';
+};
+
 var article = function article(o) {
-  var padding = function padding(left) {
-    return left ? '.pr2' : '.pl2';
-  };
-  var textAlign = function textAlign(left) {
-    return left ? '.right-align' : '';
-  };
 
   var img = browserImg(o.img);
-  var txt = (0, _h2.default)('figcation.table-cell.align-middle.col-5' + padding(!o.left) + textAlign(!o.left), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
-  var content = [o.left ? img : txt, o.left ? txt : img];
-  return (0, _h2.default)('article.table.fullWidth.mb3', content);
+  var txt = (0, _h2.default)('figcation.col-5' + (padding(!o.left) + float(!o.left) + align(!o.left)), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
+  var content = [txt, img];
+  return (0, _h2.default)('article.clearfix.mb3', content);
 };
 
 var browserImg = function browserImg(o) {
-  return (0, _h2.default)('figure.m0.o0.transO--slow.relative.browserImage.col-7.table-cell', [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o, hook: { insert: _fadeIn2.default } })]);
+  return (0, _h2.default)('figure.m0.o0.transO--slow.relative.browserImage.col-7' + float(o.left), [(0, _h2.default)('div.absolute.top-0.left-0.fullWidth', [(0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute'), (0, _h2.default)('i.circle.absolute')]), (0, _h2.default)('img', { props: o, hook: { insert: _fadeIn2.default } })]);
 };
 
 module.exports = function (_) {
@@ -10900,7 +10904,7 @@ var _h2 = _interopRequireDefault(_h);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function (_) {
-  return (0, _h2.default)('header.p1.mt1.mb2', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
+  return (0, _h2.default)('header.p1.mt1.mb1', [(0, _h2.default)('h1.h2.my0.mr2.inline-block', 'Yutaka Houlette'), (0, _h2.default)('h2.h4.regular.italic.my0.inline-block', 'Illustrator & UX Engineer'), (0, _h2.default)('div.mt1', [(0, _link2.default)('.mr2.smooth', '#illustration', 'Illustration'), (0, _link2.default)('.mr2.smooth', '#code', 'Code/Design'), (0, _link2.default)('.mr2.smooth', '#about', 'About')])]);
 };
 
 },{"./link":34,"snabbdom/h":15}],31:[function(require,module,exports){
@@ -10915,9 +10919,28 @@ module.exports = function (id) {
 
 var images = {};
 
-images.korematsu = [{ src: 'korematsu/ch-1-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-2-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-3-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-4-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-5-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-6-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-7-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-8-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-9-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-10-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-11-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'korematsu/ch-12-800', title: 'Fred Korematsu Speaks Up - Chapter 1' }];
+var korematsuImages = function korematsuImages(_) {
+  var arr = [];
+  for (var i = 1; i <= 12; i++) {
+    var obj = {
+      src: 'illustration/korematsu-ch-' + i + '-800',
+      title: 'Fred Korematsu Speaks Up - Chapter ' + i
+    };
+    arr.push(obj);
+  }
+  return arr;
+};
 
-images.illo = [{ src: 'illo/arnie_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/demai_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }, { src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1' }];
+var img = function img(src, title) {
+  return {
+    src: 'illustration/' + src + '-800',
+    title: title
+  };
+};
+
+images.korematsu = korematsuImages();
+
+images.illo = [img('whale-fire', 'Whale Fire - for Meatpaper'), img('how-we-eat', 'How We Eat - for Meatpaper'), img('wapato', 'Wapato - for Orion'), img('mixtum', 'Mixtum - with Heidi Gustafson'), img('flourish', 'Flourish (栄)'), img('si', 'Cloud Squeeze - for Smithsonian Magazine'), img('demai', 'Demai - for Ganga Skateboards'), img('moonbeams', 'Moonbeams'), img('arnie', 'Path to College - for Pittsburgh Promise'), img('eri-yamamoto', 'Poster for Eri Yamamoto'), img('homeless-dance', 'Take This Waltz')];
 
 module.exports = images;
 
@@ -10981,6 +11004,8 @@ var data = { modalData: {} };
 
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
 
+var isNarrow = window.innerWidth < 500;
+
 var view = function view(data) {
   var content = [(0, _header2.default)(), main()];
   content = data.modalData.src ? _ramda2.default.concat(content, imageModal(data.modalData)) : content;
@@ -10992,29 +11017,32 @@ var main = function main(_) {
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.mt3', (0, _id2.default)('illustration'), [(0, _h2.default)('h3.italic.px1', 'Illustration'), (0, _h2.default)('div.clearFix.ml1', _ramda2.default.map(function (x) {
+  return (0, _h2.default)('section.p05', (0, _id2.default)('illustration'), [(0, _h2.default)('div.clearFix', _ramda2.default.map(function (x) {
     return imgBox(x, '.col-4.left');
-  }, _images2.default.korematsu)), (0, _h2.default)('div.ml1', {
-    hook: { insert: _brickIt2.default } }, _ramda2.default.map(function (x) {
+  }, _images2.default.korematsu)), (0, _h2.default)('div', {
+    hook: { insert: isNarrow ? function (_) {
+        return '';
+      } : _brickIt2.default } }, _ramda2.default.map(function (x) {
     return imgBox(x);
   }, _images2.default.illo))]);
 };
 
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block.mb1' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative.inline-block', [(0, _h2.default)('img.pointer.pr1', {
+  return (0, _h2.default)('div.inline-block' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     on: { click: openModal },
     hook: { insert: _fadeIn2.default }
-  }), (0, _h2.default)('figcaption.absolute.bottom-0.sans.smooth.h6.left-0.p1.scrim.o0.transO', o.title)])]);
+  }), (0, _h2.default)('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title)])]);
 };
 
 var imageModal = function imageModal(modalData) {
   return (0, _h2.default)('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO', { style: { delayed: { opacity: '1' }, remove: { opacity: '0' } },
     on: { click: closeModal }
-  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.dropShadow.verticallyCenter', { props: { src: modalData.src, alt: modalData.alt } })])]);
+  }, [(0, _h2.default)('div.fullWidth.fullHeight.center.p2', [(0, _h2.default)('img.dropShadow.verticallyCenter.fullMaxHeight', { props: { src: modalData.src, alt: modalData.alt } })])]);
 };
 
 var openModal = function openModal(e) {
+  if (isNarrow) return;
   var image = e.target;
   data.modalData.src = image.getAttribute('src');
   data.modalData.alt = image.getAttribute('alt');

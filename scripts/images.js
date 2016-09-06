@@ -1,28 +1,38 @@
 let images = {}
 
-images.korematsu = [
-  {src: 'korematsu/ch-1-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-2-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-3-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-4-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-5-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-6-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-7-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-8-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-9-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-10-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-11-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'korematsu/ch-12-800', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-]
+const korematsuImages = _ => {
+  let arr = []
+  for(let i=1; i <= 12; i++) {
+    let obj = {
+      src: `illustration/korematsu-ch-${i}-800`
+    , title: `Fred Korematsu Speaks Up - Chapter ${i}`
+    }
+    arr.push(obj)
+  }
+  return arr
+}
+
+const img = (src, title) => {
+  return {
+    src: `illustration/${src}-800`,
+    title: title
+  }
+}
+
+images.korematsu = korematsuImages()
 
 images.illo = [
- {src: 'illo/arnie_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'illo/demai_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'illo/whale_fire_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
-, {src: 'illo/eri_web', title: 'Fred Korematsu Speaks Up - Chapter 1'}
+  img('whale-fire', 'Whale Fire - for Meatpaper')
+, img('how-we-eat', 'How We Eat - for Meatpaper')
+, img('wapato', 'Wapato - for Orion')
+, img('mixtum', 'Mixtum - with Heidi Gustafson')
+, img('flourish', 'Flourish (栄)')
+, img('si', 'Cloud Squeeze - for Smithsonian Magazine')
+, img('demai', 'Demai - for Ganga Skateboards')
+, img('moonbeams', 'Moonbeams')
+, img('arnie', 'Path to College - for Pittsburgh Promise')
+, img('eri-yamamoto', 'Poster for Eri Yamamoto')
+, img('homeless-dance', 'Take This Waltz')
 ]
 
 module.exports = images
