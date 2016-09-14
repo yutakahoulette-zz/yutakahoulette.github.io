@@ -8,8 +8,8 @@ var sourcemaps = require('gulp-sourcemaps')
 
 gulp.task('css', function () {
   var processors = [
-    precss({})
-  , importCss()
+    importCss()
+  , precss({})
   , autoprefixer({browsers: ['last 3 versions']})
   , cssnano()
   ]

@@ -26,7 +26,7 @@ const patch = snabbdom.init([
 , require('snabbdom/modules/attributes')
 ])
 
-let isNarrow = window.innerWidth < 500
+let isNarrow = window.innerWidth <= 400
 
 const view = data => {
   let content = [header(), main()]
@@ -56,11 +56,10 @@ const illustration = _ =>
 
 const imgBox = (o, className) =>
   h(`div.inline-block.relative${className ? className : ''}`, [
-    h('div.loader-wrapper.absolute.top-0.left-0.trans-0.fullWidth', [
-      h('div.loader')])
-  , h('figure.m0.o0.transO--slow.relative', [
+    h('figure.m0.o0.transO--slow.relative', [
       h(`img.p05${!isNarrow ? '.pointer' : ''}`, { 
-        props: {src: `images/${o.src}.jpg`, alt: o.title}
+        props: { src: `images/${o.src}.jpg`, alt: o.title }
+      , attrs: {'data-large-image': `images/${o.large}.jpg`}
       , on: {click: openModal}
       , hook: {insert: fadeIn}
       })
@@ -83,7 +82,7 @@ const imageModal = (modalData) =>
 const openModal = e => {
   if(isNarrow) return
   let image = e.target
-  data.modalData.src = image.getAttribute('src')
+  data.modalData.src = image.getAttribute('data-large-image')
   data.modalData.alt = image.getAttribute('alt')
   render()
 }

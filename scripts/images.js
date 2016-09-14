@@ -4,7 +4,8 @@ const korematsuImages = _ => {
   let arr = []
   for(let i=1; i <= 12; i++) {
     let obj = {
-      src: `illustration/korematsu-ch-${i}-800`
+      src: `illustration/korematsu-ch-${i}-400`
+    , large: `illustration/korematsu-ch-${i}-800`
     , title: `Fred Korematsu Speaks Up - Chapter ${i}`
     }
     arr.push(obj)
@@ -12,7 +13,11 @@ const korematsuImages = _ => {
   return arr
 }
 
-const img = (src, title) => ({src: `illustration/${src}-800`, title: title })
+const img = (src, title) => (
+    { src: `illustration/${src}-800`
+    , large: `illustration/${src}-800`
+    , title: title }
+)
 
 images.korematsu = korematsuImages()
 

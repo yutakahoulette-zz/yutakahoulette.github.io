@@ -10888,9 +10888,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = function (x) {
   (0, _imagesloaded2.default)(x.elm, function (i) {
-    var p = i.images[0].img.parentElement.parentElement;
-    p.querySelector('figure').style.opacity = '1';
-    p.querySelector('.loader-wrapper').style.opacity = '0';
+    i.images[0].img.parentElement.style.opacity = '1';
   });
 };
 
@@ -10927,7 +10925,8 @@ var korematsuImages = function korematsuImages(_) {
   var arr = [];
   for (var i = 1; i <= 12; i++) {
     var obj = {
-      src: 'illustration/korematsu-ch-' + i + '-800',
+      src: 'illustration/korematsu-ch-' + i + '-400',
+      large: 'illustration/korematsu-ch-' + i + '-800',
       title: 'Fred Korematsu Speaks Up - Chapter ' + i
     };
     arr.push(obj);
@@ -10936,7 +10935,9 @@ var korematsuImages = function korematsuImages(_) {
 };
 
 var img = function img(src, title) {
-  return { src: 'illustration/' + src + '-800', title: title };
+  return { src: 'illustration/' + src + '-800',
+    large: 'illustration/' + src + '-800',
+    title: title };
 };
 
 images.korematsu = korematsuImages();
@@ -11005,7 +11006,7 @@ var data = { modalData: {} };
 
 var patch = _snabbdom2.default.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')]);
 
-var isNarrow = window.innerWidth < 500;
+var isNarrow = window.innerWidth <= 400;
 
 var view = function view(data) {
   var content = [(0, _header2.default)(), main()];
@@ -11029,8 +11030,9 @@ var illustration = function illustration(_) {
 };
 
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block.relative' + (className ? className : ''), [(0, _h2.default)('div.loader-wrapper.absolute.top-0.left-0.trans-0.fullWidth', [(0, _h2.default)('div.loader')]), (0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
+  return (0, _h2.default)('div.inline-block.relative' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
+    attrs: { 'data-large-image': 'images/' + o.large + '.jpg' },
     on: { click: openModal },
     hook: { insert: _fadeIn2.default }
   }), (0, _h2.default)('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title)])]);
@@ -11045,7 +11047,7 @@ var imageModal = function imageModal(modalData) {
 var openModal = function openModal(e) {
   if (isNarrow) return;
   var image = e.target;
-  data.modalData.src = image.getAttribute('src');
+  data.modalData.src = image.getAttribute('data-large-image');
   data.modalData.alt = image.getAttribute('alt');
   render();
 };

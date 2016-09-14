@@ -1,12 +1,20 @@
-@import '../node_modules/normalize.css/normalize.css';
-@import '../node_modules/basscss/css/basscss.css';
-@import 'fonts';
-@import 'loader';
+@import 'normalize.css';
+@import 'basscss-align';
+@import 'basscss-grid';
+@import 'basscss-hide';
+@import 'basscss-layout';
+@import 'basscss-margin';
+@import 'basscss-padding';
+@import 'basscss-position';
+@import 'basscss-type-scale';
+@import 'basscss-typography';
+
+@import './fonts.css';
+@import './browser-image.css';
 
 * {
  box-sizing: border-box;   
 }
-
 
 $blue: rgb(174, 202, 211);
 
@@ -25,46 +33,6 @@ body {
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 
-.browserImage {
-   box-shadow: 0 0 3px rgba(0,0,0,0.5);
-   border-radius: 4px; 
-   overflow: hidden;
-}
-
-.browserImage i {
-  width: 8px;
-  height: 8px;
-  top: 6px;
-  opacity: 0.7;
-  border: 1px solid rgba(0,0,0,0.1);
-}
-
-.browserImage i:first-of-type {
-  background: #ec4a26;
-  left: 7px;
-}
-
-.browserImage i:nth-of-type(2) {
-  background: #ffbc00;
-  left: 19px;
-}
-
-.browserImage i:last-of-type {
-  background: #62b308;
-  left: 31px;
-}
-
-.browserImage div {
-  height: 20px;
-  background: #d6d6d6;
-  border-bottom: 1px solid #cacaca;
-}
-
-.browserImage img {
-  margin-top: 19px;
-}
-
-
 .p1 {
   padding: 10px;
 }
@@ -81,16 +49,6 @@ body {
 .readable {
   line-height: 1.5;
   max-width: 700px;
-}
-
-.slideShow {
-  width: 100px;
-  height: 100px;
-  background: white;
-}
-
-header:hover .slideShow {
-  background: url('images/yh-slideshow.gif');
 }
 
 .smooth {
@@ -180,7 +138,7 @@ img {
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .col-4 {
     width: 100%;
   }
