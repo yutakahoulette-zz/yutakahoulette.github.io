@@ -11015,12 +11015,12 @@ var view = function view(data) {
 };
 
 var main = function main(_) {
-  return (0, _h2.default)('main', [illustration(), (0, _code2.default)(), (0, _about2.default)()]);
+  return (0, _h2.default)('main', [illustration(), (0, _code2.default)(), (0, _about2.default)(), largeImages()]);
 };
 
 var illustration = function illustration(_) {
-  return (0, _h2.default)('section.p05', (0, _id2.default)('illustration'), [(0, _h2.default)('div.clearFix', _ramda2.default.map(function (x) {
-    return imgBox(x, '.col-4.left');
+  return (0, _h2.default)('section.p05', (0, _id2.default)('illustration'), [(0, _h2.default)('div', _ramda2.default.map(function (x) {
+    return imgBox(x, '.col-4');
   }, _images2.default.korematsu)), (0, _h2.default)('div', {
     hook: { insert: isNarrow ? function (_) {
         return '';
@@ -11036,6 +11036,14 @@ var imgBox = function imgBox(o, className) {
     on: { click: openModal },
     hook: { insert: _fadeIn2.default }
   }), (0, _h2.default)('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title)])]);
+};
+
+var hiddenImg = function hiddenImg(o) {
+  return (0, _h2.default)('img.hide', { props: { src: 'images/' + o.large + '.jpg' } });
+};
+
+var largeImages = function largeImages(_) {
+  return (0, _h2.default)('div', [(0, _h2.default)('div', _ramda2.default.map(hiddenImg, _images2.default.korematsu)), (0, _h2.default)('div', _ramda2.default.map(hiddenImg, _images2.default.illo))]);
 };
 
 var imageModal = function imageModal(modalData) {

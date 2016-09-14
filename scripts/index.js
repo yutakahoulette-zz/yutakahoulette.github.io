@@ -42,12 +42,13 @@ const main = _ =>
       illustration()
     , code()
     , about()
+    , largeImages()
     ]
   )
 
 const illustration = _ =>
   h('section.p05', id('illustration')
-  , [ h('div.clearFix', R.map(x => imgBox(x, '.col-4.left'), images.korematsu))
+  , [ h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu))
     , h('div', {
         hook: {insert: isNarrow ? _ => '' : brickIt}}
       , R.map(x => imgBox(x), images.illo))
@@ -67,6 +68,13 @@ const imgBox = (o, className) =>
     ])
   ])
 
+const hiddenImg = o => h('img.hide', {props: {src: `images/${o.large}.jpg`}}) 
+
+const largeImages = _ => 
+  h('div', [
+    h('div', R.map(hiddenImg, images.korematsu))
+  , h('div', R.map(hiddenImg, images.illo))
+  ])
 
 const imageModal = (modalData) => 
   h('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO'
