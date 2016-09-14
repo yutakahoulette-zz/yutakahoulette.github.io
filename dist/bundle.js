@@ -10800,11 +10800,11 @@ var _id2 = _interopRequireDefault(_id);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var body = function body(_) {
-  return [(0, _h2.default)('hr'), (0, _h2.default)('h3.mb1.italic', 'About'), (0, _h2.default)('article.readable.smooth', [(0, _h2.default)('p', "I'm an illustrator and UX engineer based in Oakland, California."), (0, _h2.default)('p', ["During the day, I design and build user interfaces at ", (0, _link2.default)('', 'https://commitchange.com', 'CommitChange', true), " a fundraising platform for nonprofits and social-good companies. I'm fortunate enough to have the flexibility to take on occasional freelance projects. Most recently, I illustrated a book about the Japanese-American civil rights hero, ", (0, _link2.default)('', "https://en.wikipedia.org/wiki/Fred_Korematsu", 'Fred Korematsu', true), " (forthcoming from Heyday Books). Some other clients include Smithsonian Magazine and Orion Magazine."]), (0, _h2.default)('p', "In addition to illustration, I'm passionate about interaction design, functional programming, and data visualization."), (0, _h2.default)('p.mb1', "Please drop me a line if you'd like to work together."), (0, _h2.default)('ul.mt0', [(0, _h2.default)('li', '415-940-5012'), (0, _h2.default)('li', [(0, _h2.default)('a', { props: { href: 'mailto:mail@yutakahoulette.com' } }, "mail@yutakahoulette.com")])])])];
+  return [(0, _h2.default)('hr.pb2'), (0, _h2.default)('h2.mb1.italic', 'About'), (0, _h2.default)('article.readable.smooth', [(0, _h2.default)('p', "I'm an illustrator and UX engineer based in Oakland, California."), (0, _h2.default)('p', ["During the day, I design and build user interfaces at ", (0, _link2.default)('', 'https://commitchange.com', 'CommitChange', true), " a fundraising platform for nonprofits and social-good companies. I'm fortunate enough to have the flexibility to take on occasional freelance projects. Most recently, I illustrated a book about the Japanese-American civil rights hero, ", (0, _link2.default)('', "https://en.wikipedia.org/wiki/Fred_Korematsu", 'Fred Korematsu', true), " (forthcoming from Heyday Books). Some other clients include Smithsonian Magazine and Orion Magazine."]), (0, _h2.default)('p', "In addition to illustration, I'm passionate about interaction design, functional programming, and data visualization."), (0, _h2.default)('p.mb1', "Please drop me a line if you'd like to work together."), (0, _h2.default)('ul.mt0', [(0, _h2.default)('li', '415-940-5012'), (0, _h2.default)('li', [(0, _h2.default)('a', { props: { href: 'mailto:mail@yutakahoulette.com' } }, "mail@yutakahoulette.com")])])])];
 };
 
 module.exports = function (_) {
-  return (0, _h2.default)('section.pl1', (0, _id2.default)('about'), body());
+  return (0, _h2.default)('section.px1.mt2.mb4', (0, _id2.default)('about'), body());
 };
 
 },{"./id":31,"./link":34,"snabbdom/h":15}],27:[function(require,module,exports){
@@ -10841,11 +10841,14 @@ var _id2 = _interopRequireDefault(_id);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var kumikiP = ['Kumiki is a web app for making polyrhythmic loops. It uses the Web Audio API to generate sounds and Virtual Dom for rendering.', (0, _h2.default)('br'), (0, _link2.default)('', 'http://kumiki.audio', 'See it here.', true)];
+
 var body = function body(_) {
-  return [(0, _h2.default)('hr'), article({ left: true, title: 'Kumiki', p: 'asdf',
+  return [(0, _h2.default)('hr.pb3'), article({ left: true, title: 'Kumiki', p: kumikiP,
     img: { src: 'images/code/kumiki.gif', alt: 'asdf' } }), article({ left: false, title: 'Should I?', p: 'asdf',
     img: { src: 'images/code/should_i.gif', alt: 'asdf' } }), article({ left: true, title: 'Scapeland', p: 'asdf',
-    img: { src: 'images/code/scapeland.gif', alt: 'asdf' } }), article({ left: false, title: 'Gestalt Weather', p: 'asdf',
+    img: { src: 'images/code/scapeland.gif', alt: 'asdf' } }), article({ left: false, title: 'Text to Marbles', p: 'asdf',
+    img: { src: 'images/code/marbles.png', alt: 'asdf' } }), article({ left: true, title: 'Gestalt Weather', p: 'asdf',
     img: { src: 'images/code/gestalt.png', alt: 'asdf' } })];
 };
 
@@ -10860,11 +10863,10 @@ var align = function align(left) {
 };
 
 var article = function article(o) {
-
   var img = browserImg(o.img);
-  var txt = (0, _h2.default)('figcation.col-5' + (padding(!o.left) + float(!o.left) + align(!o.left)), [(0, _h2.default)('h4', o.title), (0, _h2.default)('p', [o.p])]);
+  var txt = (0, _h2.default)('figcation.smooth.readable.col-5' + (padding(!o.left) + float(!o.left) + align(!o.left)), [(0, _h2.default)('h4.sans', o.title), (0, _h2.default)('p', o.p)]);
   var content = [txt, img];
-  return (0, _h2.default)('article.clearfix.mb3', content);
+  return (0, _h2.default)('article.clearfix.mb4', content);
 };
 
 var browserImg = function browserImg(o) {
@@ -10872,7 +10874,7 @@ var browserImg = function browserImg(o) {
 };
 
 module.exports = function (_) {
-  return (0, _h2.default)('section.p1', (0, _id2.default)('code'), body());
+  return (0, _h2.default)('section.p1.my3', (0, _id2.default)('code'), body());
 };
 
 },{"./fade-in":29,"./id":31,"./link":34,"snabbdom/h":15}],29:[function(require,module,exports){
@@ -10932,10 +10934,7 @@ var korematsuImages = function korematsuImages(_) {
 };
 
 var img = function img(src, title) {
-  return {
-    src: 'illustration/' + src + '-800',
-    title: title
-  };
+  return { src: 'illustration/' + src + '-800', title: title };
 };
 
 images.korematsu = korematsuImages();

@@ -12,12 +12,7 @@ const korematsuImages = _ => {
   return arr
 }
 
-const img = (src, title) => {
-  return {
-    src: `illustration/${src}-800`,
-    title: title
-  }
-}
+const img = (src, title) => ({src: `illustration/${src}-800`, title: title })
 
 images.korematsu = korematsuImages()
 

@@ -3,8 +3,8 @@ import link from './link'
 import id from './id'
 
 let body = _ => [
-  h('hr')
-, h('h3.mb1.italic', 'About')
+  h('hr.pb2')
+, h('h2.mb1.italic', 'About')
 , h('article.readable.smooth'
     , [
         h('p', "I'm an illustrator and UX engineer based in Oakland, California.")
@@ -25,5 +25,5 @@ let body = _ => [
     )
 ]
 
-module.exports  = _ => h('section.pl1', id('about'), body())
+module.exports  = _ => h('section.px1.mt2.mb4', id('about'), body())
 
