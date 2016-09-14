@@ -10888,7 +10888,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = function (x) {
   (0, _imagesloaded2.default)(x.elm, function (i) {
-    i.images[0].img.parentElement.style.opacity = '1';
+    var p = i.images[0].img.parentElement.parentElement;
+    p.querySelector('figure').style.opacity = '1';
+    p.querySelector('.loader-wrapper').style.opacity = '0';
   });
 };
 
@@ -11027,7 +11029,7 @@ var illustration = function illustration(_) {
 };
 
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
+  return (0, _h2.default)('div.inline-block.relative' + (className ? className : ''), [(0, _h2.default)('div.loader-wrapper.absolute.top-0.left-0.trans-0.fullWidth', [(0, _h2.default)('div.loader')]), (0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     on: { click: openModal },
     hook: { insert: _fadeIn2.default }

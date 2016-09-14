@@ -1,6 +1,7 @@
 @import '../node_modules/normalize.css/normalize.css';
 @import '../node_modules/basscss/css/basscss.css';
 @import 'fonts';
+@import 'loader';
 
 * {
  box-sizing: border-box;   

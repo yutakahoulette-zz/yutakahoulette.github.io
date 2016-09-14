@@ -55,13 +55,15 @@ const illustration = _ =>
   )
 
 const imgBox = (o, className) =>
-  h(`div.inline-block${className ? className : ''}`, [
-    h('figure.m0.o0.transO--slow.relative', [
-    h(`img.p05${!isNarrow ? '.pointer' : ''}`, { 
-      props: {src: `images/${o.src}.jpg`, alt: o.title}
-    , on: {click: openModal}
-    , hook: {insert: fadeIn}
-    })
+  h(`div.inline-block.relative${className ? className : ''}`, [
+    h('div.loader-wrapper.absolute.top-0.left-0.trans-0.fullWidth', [
+      h('div.loader')])
+  , h('figure.m0.o0.transO--slow.relative', [
+      h(`img.p05${!isNarrow ? '.pointer' : ''}`, { 
+        props: {src: `images/${o.src}.jpg`, alt: o.title}
+      , on: {click: openModal}
+      , hook: {insert: fadeIn}
+      })
     , h('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title) 
     ])
   ])
