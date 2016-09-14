@@ -10,6 +10,7 @@
 @import 'basscss-typography';
 
 @import './fonts.css';
+@import './loader.css';
 @import './browser-image.css';
 
 * {

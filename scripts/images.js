@@ -6,7 +6,7 @@ const korematsuImages = _ => {
     let obj = {
       src: `illustration/korematsu-ch-${i}-400`
     , large: `illustration/korematsu-ch-${i}-800`
-    , title: `Fred Korematsu Speaks Up - Chapter ${i}`
+    , title: `Fred Korematsu Speaks Up - Ch. ${i}`
     }
     arr.push(obj)
   }

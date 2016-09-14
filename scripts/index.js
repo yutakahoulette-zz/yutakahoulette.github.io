@@ -57,7 +57,8 @@ const illustration = _ =>
 
 const imgBox = (o, className) =>
   h(`div.inline-block.relative${className ? className : ''}`, [
-    h('figure.m0.o0.transO--slow.relative', [
+    h('div.loader')
+  , h('figure.m0.o0.transO--slow.relative', [
       h(`img.p05${!isNarrow ? '.pointer' : ''}`, { 
         props: { src: `images/${o.src}.jpg`, alt: o.title }
       , attrs: {'data-large-image': `images/${o.large}.jpg`}

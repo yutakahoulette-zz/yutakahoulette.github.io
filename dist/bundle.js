@@ -10888,7 +10888,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = function (x) {
   (0, _imagesloaded2.default)(x.elm, function (i) {
-    i.images[0].img.parentElement.style.opacity = '1';
+    var p = i.images[0].img.parentElement.parentElement;
+    p.querySelector('figure').style.opacity = '1';
+    p.querySelector('.loader').style.display = 'none';
   });
 };
 
@@ -10927,7 +10929,7 @@ var korematsuImages = function korematsuImages(_) {
     var obj = {
       src: 'illustration/korematsu-ch-' + i + '-400',
       large: 'illustration/korematsu-ch-' + i + '-800',
-      title: 'Fred Korematsu Speaks Up - Chapter ' + i
+      title: 'Fred Korematsu Speaks Up - Ch. ' + i
     };
     arr.push(obj);
   }
@@ -11030,7 +11032,7 @@ var illustration = function illustration(_) {
 };
 
 var imgBox = function imgBox(o, className) {
-  return (0, _h2.default)('div.inline-block.relative' + (className ? className : ''), [(0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
+  return (0, _h2.default)('div.inline-block.relative' + (className ? className : ''), [(0, _h2.default)('div.loader'), (0, _h2.default)('figure.m0.o0.transO--slow.relative', [(0, _h2.default)('img.p05' + (!isNarrow ? '.pointer' : ''), {
     props: { src: 'images/' + o.src + '.jpg', alt: o.title },
     attrs: { 'data-large-image': 'images/' + o.large + '.jpg' },
     on: { click: openModal },

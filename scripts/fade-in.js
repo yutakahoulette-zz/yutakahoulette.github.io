@@ -2,7 +2,9 @@ import loaded from 'imagesloaded'
 
 module.exports = x => {
   loaded(x.elm, i => {
-    i.images[0].img.parentElement.style.opacity = '1'
+    let p = i.images[0].img.parentElement.parentElement
+    p.querySelector('figure').style.opacity = '1'
+    p.querySelector('.loader').style.display = 'none'
   })
 }
 
