@@ -10890,7 +10890,6 @@ module.exports = function (x) {
   (0, _imagesloaded2.default)(x.elm, function (i) {
     var p = i.images[0].img.parentElement.parentElement;
     p.querySelector('figure').style.opacity = '1';
-    p.querySelector('.loader').style.display = 'none';
   });
 };
 
