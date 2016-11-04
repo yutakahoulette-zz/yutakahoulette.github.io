@@ -2,17 +2,16 @@
 import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
-import bricks from 'image-gallery'
 
 // local
-import images from './images'
-import header from './header'
-import code from './code'
-import about from './about'
-import fadeIn from './fade-in'
-import brickIt from './brick-it'
-import link from './link'
-import id from './id'
+import images from './lib/images'
+import header from './lib/header'
+import code from './lib/code'
+import about from './lib/about'
+import fadeIn from './lib/fade-in'
+import brickIt from './lib/brick-it'
+import link from './lib/link'
+import id from './lib/id'
 
 let vnode
 let data = {modalData: {}}

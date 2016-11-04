@@ -8,8 +8,9 @@
     "url": "git+https://github.com/yutakahoulette/portfolio.git"
   },
   "scripts": {
-    "watch": "watchify scripts/index.js -o dist/bundle.js -t [babelify --presets es2015]",
-    "start": "open dist/index.html && npm run watch"
+    "watch-js": "budo index.js --live -- -t babelify",
+    "watch-css": "postcss -c postcss-watch.js -w -l",
+    "build": "postcss -c postcss-build.js -l && ./build.sh"
   },
   "author": "Yutaka Houlette",
   "license": "MIT",
@@ -20,18 +21,17 @@
     "snabbdom": "0.5.0"
   },
   "devDependencies": {
+    "@commitchange/commons.css": "0.0.3",
     "autoprefixer": "6.3.7",
     "babel-preset-es2015": "6.9.0",
     "babelify": "7.3.0",
-    "basscss": "8.0.1",
     "browserify": "13.0.1",
+    "budo": "9.2.1",
     "cssnano": "3.7.1",
-    "gulp": "3.9.1",
-    "gulp-postcss": "6.1.1",
-    "gulp-sourcemaps": "1.6.0",
-    "normalize.css": "4.2.0",
+    "postcss": "5.2.5",
+    "postcss-cli": "2.6.0",
+    "postcss-color-function": "2.0.1",
     "postcss-import": "8.1.2",
-    "precss": "1.4.0",
-    "watchify": "3.7.0"
+    "precss": "1.4.0"
   }
 }

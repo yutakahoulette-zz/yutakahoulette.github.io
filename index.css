@@ -1,20 +1,8 @@
-@import 'normalize.css';
-@import 'basscss-align';
-@import 'basscss-grid';
-@import 'basscss-hide';
-@import 'basscss-layout';
-@import 'basscss-margin';
-@import 'basscss-padding';
-@import 'basscss-position';
-@import 'basscss-type-scale';
-@import 'basscss-typography';
+@import '@commitchange/commons.css';
 
-@import './fonts.css';
-@import './browser-image.css';
+@import 'styles/fonts.css';
+@import 'styles/browser-image.css';
 
-* {
- box-sizing: border-box;   
-}
 
 $blue: rgb(174, 202, 211);
 
@@ -51,21 +39,10 @@ body {
   max-width: 700px;
 }
 
-.smooth {
-  -webkit-font-smoothing: antialiased; 
-}
+.smooth { -webkit-font-smoothing: antialiased; }
 
-.pointer {
-  cursor: pointer;
-}
+.pointer { cursor: pointer; }
 
-.fullHeight {
-  height: 100%;
-}
-
-.fullWidth {
-  width: 100%;
-}
 
 .fullMaxHeight {
   max-height: 100%;
