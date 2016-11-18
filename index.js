@@ -14,8 +14,7 @@ import link from './lib/link'
 import id from './lib/id'
 
 let vnode
-let data = {modalData: {}}
-
+const data = {modalData: {}}
 
 const patch = snabbdom.init([
   require('snabbdom/modules/class')
@@ -25,7 +24,7 @@ const patch = snabbdom.init([
 , require('snabbdom/modules/attributes')
 ])
 
-let isNarrow = window.innerWidth <= 400
+const isNarrow = window.innerWidth <= 400
 
 const view = data => {
   let content = [header(), main()]
@@ -55,16 +54,15 @@ const illustration = _ =>
   )
 
 const imgBox = (o, className) =>
-  h(`div.inline-block.relative${className ? className : ''}`, [
-    h('div.loader')
-  , h('figure.m0.o0.transO--slow.relative', [
-      h(`img.p05${!isNarrow ? '.pointer' : ''}`, { 
+  h(`div.inline-block.relative.${className ? className : ''}`, [
+    h('figure.m-0.opacity-0.transO--slow.relative', [
+      h(`img.p05${!isNarrow ? '.cursor-pointer' : ''}`, { 
         props: { src: `images/${o.src}.jpg`, alt: o.title }
       , attrs: {'data-large-image': `images/${o.large}.jpg`}
       , on: {click: openModal}
       , hook: {insert: fadeIn}
       })
-    , h('figcaption.absolute.sans.smooth.h6.p1.scrim.o0.transO', o.title) 
+    , h('figcaption.absolute.sans.p-1.bg-scrim-2.opacity-0.transO.line-height-2', o.title) 
     ])
   ])
 
@@ -77,12 +75,12 @@ const largeImages = _ =>
   ])
 
 const imageModal = (modalData) => 
-  h('div.fixed.bottom-0.right-0.top-0.left-0.scrim.o0.transO'
+  h('div.fixed.bottom-0.right-0.top-0.left-0.bg-scrim-2.opacity-0.transO'
   , { style: { delayed: { opacity: '1'}, remove: {opacity: '0'}}
     , on: {click: closeModal}
     }
-  , [ h('div.fullWidth.fullHeight.center.p2'
-      , [h('img.dropShadow.verticallyCenter.fullMaxHeight', {props: {src: modalData.src, alt: modalData.alt}})]
+  , [ h('div.width-full.height-full.center.p-2'
+      , [h('img.shadow-4.verticallyCenter.fullMaxHeight', {props: {src: modalData.src, alt: modalData.alt}})]
       )
     ]
   )

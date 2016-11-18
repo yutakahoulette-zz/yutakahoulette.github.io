@@ -1,52 +1,31 @@
 @import '@commitchange/commons.css';
-
 @import 'styles/fonts.css';
 @import 'styles/browser-image.css';
 
 
+body { background: rgba(0,0,0,.045) }
+
 $blue: rgb(174, 202, 211);
 
 a {
-  cursor: pointer;
   color: black !important;
-  text-decoration: none !important;
   border-bottom: 2px solid $blue;
 }
 
-body {
-  background: rgb(243, 243, 243);
-}
+.dropShadow { box-shadow: 0 0 20px rgba(0,0,0,0.4) }
 
-.dropShadow {
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-}
-
-.p1 {
-  padding: 10px;
-}
-.p2 {
-  padding: 15px;
-}
-.p3 {
-  padding: 20px;
-}
-.p05 {
-  padding: 5px;
-}
+.p-1 { padding: 10px }
+.p-2 { padding: 15px }
+.p-3 { padding: 20px }
+.p05 { padding: 5px }
 
 .readable {
-  line-height: 1.5;
   max-width: 700px;
 }
 
 .smooth { -webkit-font-smoothing: antialiased; }
 
-.pointer { cursor: pointer; }
-
-
-.fullMaxHeight {
-  max-height: 100%;
-}
+.fullMaxHeight { max-height: 100% }
 
 .verticallyCenter {
   position: relative;
@@ -54,27 +33,9 @@ body {
   transform: perspective(1px) translateY(-50%);
 }
 
-.o0 {
-  opacity: 0;
-}
-
-.o1 {
-  opacity: 1;
-}
-
-.scrim {
-  background: rgba(0,0,0,0.6);
-}
-
 .container {
   margin: 0 auto;
   max-width: 925px;
-}
-
-hr {
-  border: none;
-  border-top: 2px solid rgba(0,0,0,0.1);
-  margin-top: 5px;
 }
 
 
@@ -83,11 +44,11 @@ figcaption {
   right: 5px;
   left: 5px;
   bottom: 5px;
+  font-size: 15px;
+  font-weight: lighter;
 }
 
-figure:hover figcaption {
-  opacity: 1;
-}
+figure:hover figcaption { opacity: 1; }
 
 .transO {
   transition: opacity ease-out 0.2s;
@@ -96,11 +57,6 @@ figure:hover figcaption {
 .transO--slow {
   transition: opacity ease-out 0.4s;
 }
-
-img {
-  max-width: 100%;
-}
-
 
 @media screen and (max-width: 700px) {
   .col-4 {
