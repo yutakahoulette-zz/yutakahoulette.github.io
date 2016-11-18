@@ -14,6 +14,7 @@ import link from './lib/link'
 import id from './lib/id'
 
 let vnode
+
 const data = {modalData: {}}
 
 const patch = snabbdom.init([
