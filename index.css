@@ -69,6 +69,16 @@ figure:hover figcaption { opacity: 1; }
   .col-5 {
     width: 100%;
   }
+  figcaption.col-5.color-black {
+    padding: 0;
+    text-align: left;
+  }
+  article.clearfix.mb-4 {
+    margin-bottom: 1rem;
+  }
+  hr.mb-4 {
+    margin-bottom: 1rem;
+  }
 }
 
 @media screen and (max-width: 400px) {
