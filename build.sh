@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "making dist directory if it doesn't exist..."
+mkdir -p dist
 echo "copying index.html into dist/index.html..."
 cp index.html dist/index.html
 echo "copying images/ into dist/images..."

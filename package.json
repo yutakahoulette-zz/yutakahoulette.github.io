@@ -10,6 +10,7 @@
   "scripts": {
     "watch-js": "budo index.js --live -- -t babelify",
     "watch-css": "postcss -c postcss-watch.js -w -l",
+    "build-css": "postcss -c postcss-build.js -l",
     "build": "postcss -c postcss-build.js -l && ./build.sh"
   },
   "author": "Yutaka Houlette",
