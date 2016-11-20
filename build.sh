@@ -13,4 +13,4 @@ browserify -v -t babelify index.js | uglifyjs > dist/index.js
 echo "compiling index.css into dist/build.css"
 npm run build-css
 
-echo "done. now cd into dist and push changes to the gh-pages branch"
+echo "done. now cd into dist and push changes to master"

@@ -32,7 +32,7 @@ const view = data => {
   content = data.modalData.src
     ? R.concat(content, imageModal(data.modalData)) 
     : content
-  return h('div.container', content)
+  return h('div.container.fadeIn', content)
 }
 
 const main = _ =>
@@ -46,9 +46,9 @@ const main = _ =>
   )
 
 const illustration = _ =>
-  h('section.p05', id('illustration')
+  h('section.p-05', id('illustration')
   , [ h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu))
-    , h('div', {
+    , h('div.opacity-0.transO', {
         hook: {insert: isNarrow ? _ => '' : brickIt}}
       , R.map(x => imgBox(x), images.illo))
     ]
@@ -56,12 +56,16 @@ const illustration = _ =>
 
 const imgBox = (o, className) =>
   h(`div.inline-block.relative.${className ? className : ''}`, [
-    h('figure.m-0.opacity-0.transO--slow.relative', [
-      h(`img.p05${!isNarrow ? '.cursor-pointer' : ''}`, { 
+    h('figure.m-0.relative.opacity-0.transO'
+    , {
+        on: {click: openModal}
+      , class: {'cursor-pointer': !isNarrow}
+      , hook: {insert: fadeIn} 
+    }
+    , [ 
+      h('img.p-05', { 
         props: { src: `images/${o.src}.jpg`, alt: o.title }
       , attrs: {'data-large-image': `images/${o.large}.jpg`}
-      , on: {click: openModal}
-      , hook: {insert: fadeIn}
       })
     , h('figcaption.absolute.sans.p-1.bg-scrim-2.opacity-0.transO.line-height-2', o.title) 
     ])
@@ -88,7 +92,7 @@ const imageModal = (modalData) =>
 
 const openModal = e => {
   if(isNarrow) return
-  let image = e.target
+  let image = e.target.parentElement.querySelector('img')
   data.modalData.src = image.getAttribute('data-large-image')
   data.modalData.alt = image.getAttribute('alt')
   render()
