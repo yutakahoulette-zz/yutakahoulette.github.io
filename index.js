@@ -35,12 +35,19 @@ const view = data => {
   return h('div.container.fadeIn', content)
 }
 
+const footer = () =>
+  h('footer.px-1.py-2.align-right.small', [
+    h('hr')
+  , 'All images copyright © 2016 Yutaka Houlette'
+  ])
+
 const main = _ =>
   h('main'
   , [
       illustration()
     , code()
     , about()
+    , footer()
     , largeImages()
     ]
   )
@@ -48,8 +55,9 @@ const main = _ =>
 const illustration = _ =>
   h('section.p-05', id('illustration')
   , [ h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu))
-    , h('div.opacity-0.transO', {
-        hook: {insert: isNarrow ? _ => '' : brickIt}}
+    , h('div.transO', {
+        hook: {insert: isNarrow ? _ => '' : brickIt}
+      , class: {'opacity-0': !isNarrow}}
       , R.map(x => imgBox(x), images.illo))
     ]
   )
@@ -63,7 +71,7 @@ const imgBox = (o, className) =>
       , hook: {insert: fadeIn} 
     }
     , [ 
-      h('img.p-05', { 
+      h('img.p-05.width-full', { 
         props: { src: `images/${o.src}.jpg`, alt: o.title }
       , attrs: {'data-large-image': `images/${o.large}.jpg`}
       })
