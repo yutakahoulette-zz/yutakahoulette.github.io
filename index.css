@@ -3,7 +3,9 @@
 @import 'styles/browser-image.css';
 
 
-body { background: rgba(0,0,0,.045) }
+body { 
+  font-size: 20px;
+}
 
 $blue: rgb(174, 202, 211);
 
@@ -38,14 +40,16 @@ a {
   max-width: 925px;
 }
 
-
 figcaption {
   color: white;
   right: 5px;
   left: 5px;
   bottom: 5px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: lighter;
+}
+figcaption p {
+  font-size: 18px;
 }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
