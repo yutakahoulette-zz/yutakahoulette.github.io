@@ -1,17 +1,12 @@
-// npm
 import R from 'ramda'
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
-
-// local
 import images from './js/images'
 import header from './js/header'
 import code from './js/code'
 import fadeIn from './js/fade-in'
 import brickIt from './js/brick-it'
 import link from './js/link'
-
-let vnode
 
 const data = {modalData: {}}
 
@@ -126,6 +121,8 @@ const closeModal = e => {
   data.modalData.src = false
   render()
 }
+
+let vnode
 
 const render = _ => {
   vnode = patch(vnode, view(data))

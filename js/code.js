@@ -13,6 +13,22 @@ const projects = [
     desc: [a('Kumiki', 'http://kumiki.audio'), ' is a web app for making polyrhythmic loops. It uses the Web Audio API to generate sounds.'],
     imgSrc: 'images/code/kumiki.gif'
   },
+  { title: 'autocomplete',
+    desc: 'autocomplete',
+    imgSrc: 'images/code/autocomplete.gif'
+  },
+  { title: 'mixtum',
+    desc: 'mixtum',
+    imgSrc: 'images/code/mixtum.gif'
+  },
+  { title: 'ff-wizard',
+    desc: 'ff-wizard',
+    imgSrc: 'images/code/ff-wizard.gif'
+  },
+  { title: 'ff-dashboard',
+    desc: 'ff-dashboard',
+    imgSrc: 'images/code/ff-dashboard-loop.gif'
+  },
   { title: 'Should I?',
     desc: [a('Should I?', 'http://yutakahoulette.com/should_i'), ' is a web app for quantifying and visualizing pros and cons.'],
     imgSrc: 'images/code/should_i.gif'
