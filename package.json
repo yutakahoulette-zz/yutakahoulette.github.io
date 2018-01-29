@@ -8,9 +8,11 @@
     "url": "git+https://github.com/yutakahoulette/portfolio.git"
   },
   "scripts": {
-    "watch-js": "budo index.js --live -- -t babelify",
+    "watch-js": "budo index.js --live --open -- -t babelify",
     "watch-css": "postcss -c postcss-watch.js -w -l",
+    "watch": "concurrently 'npm run watch-js' 'npm run watch-css'",
     "build-css": "postcss -c postcss-build.js -l",
+    "test": "standard --fix 'js/*.js' 'index.js'| snazzy || true",
     "build": "postcss -c postcss-build.js -l && ./build.sh"
   },
   "author": "Yutaka Houlette",
@@ -28,11 +30,14 @@
     "babelify": "7.3.0",
     "browserify": "13.0.1",
     "budo": "9.2.1",
+    "concurrently": "^3.5.1",
     "cssnano": "3.7.1",
     "postcss": "5.2.5",
     "postcss-cli": "2.6.0",
     "postcss-color-function": "2.0.1",
     "postcss-import": "8.1.2",
-    "precss": "1.4.0"
+    "precss": "1.4.0",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3"
   }
 }

@@ -7,4 +7,3 @@ module.exports = (x, cb) => {
     cb && cb()
   })
 }
-

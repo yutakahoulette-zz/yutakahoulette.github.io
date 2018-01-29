@@ -2,16 +2,23 @@
 @import 'styles/fonts.css';
 @import 'styles/browser-image.css';
 
+$blue : #73bbd2;
 
 body { 
-  font-size: 20px;
+  font-size: 16px;
 }
 
-$blue: rgb(174, 202, 211);
+.bump {
+  font-size: 18px;
+}
 
 a {
   color: black !important;
-  border-bottom: 2px solid $blue;
+  background-image: linear-gradient(to right, $blue, $blue);
+  background-repeat: no-repeat,no-repeat,repeat-x;
+  background-position: 0 1em; 
+  background-size: 100% 4px; 
+  display: inline;
 }
 
 .dropShadow { box-shadow: 0 0 20px rgba(0,0,0,0.4) }
@@ -24,8 +31,6 @@ a {
 .readable {
   max-width: 700px;
 }
-
-.smooth { -webkit-font-smoothing: antialiased; }
 
 .fullMaxHeight { max-height: 100% }
 
@@ -45,7 +50,6 @@ figcaption {
   right: 5px;
   left: 5px;
   bottom: 5px;
-  font-size: 16px;
   font-weight: lighter;
 }
 figcaption p {
