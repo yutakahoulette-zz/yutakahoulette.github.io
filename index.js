@@ -21,7 +21,10 @@ const patch = snabbdom.init([
 const isNarrow = window.innerWidth <= 400
 
 const view = data => {
-  let content = [header(), main()]
+  let content = [
+    header(),
+    main()
+  ]
   content = data.modalData.src
     ? R.concat(content, imageModal(data.modalData))
     : content
@@ -29,7 +32,7 @@ const view = data => {
 }
 
 const footer = () =>
-  h('footer.px-1.py-2', [
+  h('footer.px-1.py-3.mt-3', [
     h('hr'),
     h('ul.mt-3.list-reset', [
       h('li', [
@@ -56,7 +59,14 @@ const main = _ =>
 
 const illustration = _ =>
   h('section.p-05', [
-    h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu)),
+    h('div.p-05', [
+      h('h3.m-0', 'Illustration projects'),
+    ]),
+    h('div.pt-2.pb-4', [
+      h('h4.p-05.mb-2', 'Fred Korematsu Speak Up'),
+      h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu)),
+    ]),
+    h('h4.p-05.mb-2', 'Editorial and personal work'),
     h('div.transO', {
       hook: {insert: isNarrow ? _ => '' : brickIt},
       class: {'opacity-0': !isNarrow}}
@@ -77,7 +87,7 @@ const imgBox = (o, className) =>
         props: { src: `images/${o.src}.jpg`, alt: o.title },
         attrs: {'data-large-image': `images/${o.large}.jpg`}
       }),
-      h('figcaption.absolute.sans.p-1.bg-scrim-2.opacity-0.transO.line-height-2', o.title)
+      h('figcaption.absolute.p-1.bg-scrim-2.opacity-0.transO.line-height-2', o.title)
     ])
   ])
 
