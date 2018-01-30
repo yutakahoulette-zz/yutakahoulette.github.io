@@ -9,7 +9,7 @@ const mapWithIndex = R.addIndex(R.map)
 const a = (text, url) => link('', url, text, true)
 
 const projects = [
-  { title: 'Design systems',
+  { title: 'Design systems and UI components',
     desc: [
       "I've helped put together design systems, as well as build a majority of the UI components in them, for ",
       a('Rally Starter', 'https:rallystarter.com/design-system'),
@@ -23,9 +23,9 @@ const projects = [
     desc: [a('Kumiki', 'http://kumiki.audio'), ' is a web app for making polyrhythmic loops. It uses the Web Audio API to generate sounds.'],
     imgSrc: 'images/code/kumiki.gif'
   },
-  { title: 'Search and autocomplete component for looking up congressional legislators.',
+  { title: 'Search and autocomplete for congress',
     desc: [
-      'This was built for ',
+      'This component was built for ',
       a('Rally Starter', 'https:rallystarter.com'),
       ' and uses open-source data from ', 
       a('unitedstates/congress', 'https://github.com/unitedstates/congress'),
@@ -43,7 +43,7 @@ const projects = [
   { title: 'FF-dashboard',
     desc: [
       a('FF-dashboard', 'https://github.com/flimflamjs/ff-dashboard'),
-      ' is a general purpose dashboard component that uses ',
+      ' is a general-purpose dashboard component that uses ',
       a('Snabbdom', 'https://github.com/snabbdom/snabbdom'),
       ', which makes it super quick to render, ', 
       ' and ',
@@ -99,5 +99,5 @@ const browserImg = o =>
 module.exports = _ =>
   h('section.p-1', [
     h('h3.m-0', 'Coding projects'),
-    h('div.pt-4', mapWithIndex(article, projects))
+    h('div.pt-4.no-margin-last-child.pb-1', mapWithIndex(article, projects))
   ])

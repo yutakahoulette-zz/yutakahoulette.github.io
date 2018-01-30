@@ -4,6 +4,10 @@
 
 $blue : #73bbd2;
 
+.no-margin-last-child > *:last-child {
+  margin: 0;
+}
+
 body { 
   font-size: 16px;
 }
@@ -50,11 +54,8 @@ figcaption {
   right: 5px;
   left: 5px;
   bottom: 5px;
-  font-weight: lighter;
 }
-figcaption p {
-  font-size: 18px;
-}
+
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
 .fadeIn {
@@ -81,6 +82,12 @@ figure:hover figcaption { opacity: 1; }
   .col-7,
   .col-5 {
     width: 100%;
+  }
+  .browserImage {
+    margin-bottom: 2rem;
+  }
+  .browserImage:last-of-type {
+    margin-bottom: 0;
   }
   figcaption.col-5.color-black {
     padding: 0;

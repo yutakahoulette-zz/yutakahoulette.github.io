@@ -4,7 +4,7 @@ import h from 'snabbdom/h'
 module.exports = _ =>
   h('header.p-1.mb-2', [
     h('h1.h2.mb-1', 'Yutaka Houlette'),
-    h('article.py-2.readable', [
+    h('article.pt-2.readable', [
       h('p.bump', "Hello! I'm a developer/designer and occasional illustrator based in Oakland, California."),
       h('p.bump', [
         "I'm currently working at Media Cause",

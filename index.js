@@ -50,7 +50,9 @@ const footer = () =>
 
 const main = _ =>
   h('main', [
+    h('div.p-05.mb-2', [ h('hr') ]),
     code(),
+    h('div.p-05.mb-2', [ h('hr') ]),
     illustration(),
     footer(),
     largeImages()
