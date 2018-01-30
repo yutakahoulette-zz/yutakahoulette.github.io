@@ -5,7 +5,7 @@ module.exports = _ =>
   h('header.p-1.mb-2', [
     h('h1.h2.mb-1', 'Yutaka Houlette'),
     h('article.pt-2.readable', [
-      h('p.bump', "Hello! I'm a developer/designer and occasional illustrator based in Oakland, California."),
+      h('p.bump', "Hello! I'm a web developer and occasional illustrator based in Oakland, California."),
       h('p.bump', [
         "I'm currently working at Media Cause",
         ",  where I'm helping to build an activism tool called ",

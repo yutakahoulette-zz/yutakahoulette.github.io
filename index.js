@@ -62,11 +62,11 @@ const main = _ =>
 const illustration = _ =>
   h('section.p-05', [
     h('div.p-05', [
-      h('h3.m-0', 'Illustration projects'),
+      h('h3.m-0', 'Illustration projects')
     ]),
     h('div.pt-2.pb-4', [
       h('h4.p-05.mb-2', 'Fred Korematsu Speak Up'),
-      h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu)),
+      h('div', R.map(x => imgBox(x, '.col-4'), images.korematsu))
     ]),
     h('h4.p-05.mb-2', 'Editorial and personal work'),
     h('div.transO', {

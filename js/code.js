@@ -27,7 +27,7 @@ const projects = [
     desc: [
       'This component was built for ',
       a('Rally Starter', 'https:rallystarter.com'),
-      ' and uses open-source data from ', 
+      ' and uses open-source data from ',
       a('unitedstates/congress', 'https://github.com/unitedstates/congress'),
       '.'
     ],
@@ -45,7 +45,7 @@ const projects = [
       a('FF-dashboard', 'https://github.com/flimflamjs/ff-dashboard'),
       ' is a general-purpose dashboard component that uses ',
       a('Snabbdom', 'https://github.com/snabbdom/snabbdom'),
-      ', which makes it super quick to render, ', 
+      ', which makes it super quick to render, ',
       ' and ',
       a('Flyd', 'https://github.com/paldepind/flyd'),
       ', which makes it easy to handle async code.'
