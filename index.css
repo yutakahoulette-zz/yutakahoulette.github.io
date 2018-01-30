@@ -78,16 +78,20 @@ figure:hover figcaption { opacity: 1; }
   }
 }
 
+.browserImageWrapper {
+  padding-bottom: 2rem;
+}
+
 @media screen and (max-width: 600px) {
   .col-7,
   .col-5 {
     width: 100%;
   }
-  .browserImage {
-    margin-bottom: 2rem;
+  .browserImageWrapper {
+    padding-bottom: 3rem;
   }
-  .browserImage:last-of-type {
-    margin-bottom: 0;
+  .browserImageWrapper:last-of-type {
+    padding-bottom: 1rem;
   }
   figcaption.col-5.color-black {
     padding: 0;

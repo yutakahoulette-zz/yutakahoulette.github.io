@@ -83,7 +83,7 @@ const article = (project, i) => {
     ]
   )
   const content = [txt, img]
-  return h('article.clearfix.mb-4.pb-2', content)
+  return h('article.clearfix.mb-4.browserImageWrapper', content)
 }
 
 const browserImg = o =>
