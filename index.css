@@ -2,13 +2,13 @@
 @import 'styles/fonts.css';
 @import 'styles/browser-image.css';
 
-$blue : #73bbd2;
+$blue: #73bbd2;
 
 .no-margin-last-child > *:last-child {
   margin: 0;
 }
 
-body { 
+body {
   font-size: 16px;
 }
 
@@ -19,24 +19,40 @@ body {
 a {
   color: black !important;
   background-image: linear-gradient(to right, $blue, $blue);
-  background-repeat: no-repeat,no-repeat,repeat-x;
-  background-position: 0 1em; 
-  background-size: 100% 4px; 
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  background-position: 0 1em;
+  background-size: 100% 2px;
   display: inline;
 }
 
-.dropShadow { box-shadow: 0 0 20px rgba(0,0,0,0.4) }
+.dropShadow {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
 
-.p-05 { padding: 5px }
-.p-1 { padding: 10px }
-.p-2 { padding: 15px }
-.p-3 { padding: 20px }
+p {
+  line-height: 1.6;
+}
+
+.p-05 {
+  padding: 5px;
+}
+.p-1 {
+  padding: 10px;
+}
+.p-2 {
+  padding: 15px;
+}
+.p-3 {
+  padding: 20px;
+}
 
 .readable {
   max-width: 700px;
 }
 
-.fullMaxHeight { max-height: 100% }
+.fullMaxHeight {
+  max-height: 100%;
+}
 
 .verticallyCenter {
   position: relative;
@@ -56,20 +72,29 @@ figcaption {
   bottom: 5px;
 }
 
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .fadeIn {
   opacity: 0;
-  animation:fadeIn ease-in 1;
-  animation-fill-mode:forwards;
-  animation-duration: .2s;
-  animation-delay: .2s;
+  animation: fadeIn ease-in 1;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s;
+  animation-delay: 0.2s;
 }
 
-figure:hover figcaption { opacity: 1; }
+figure:hover figcaption {
+  opacity: 1;
+}
 
 .transO {
-  transition: opacity ease-out .2s;
+  transition: opacity ease-out 0.2s;
 }
 
 @media screen and (max-width: 700px) {
@@ -110,4 +135,3 @@ figure:hover figcaption { opacity: 1; }
     width: 100%;
   }
 }
-
